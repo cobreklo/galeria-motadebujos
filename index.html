@@ -272,13 +272,16 @@ if(contactForm){
   e.preventDefault();
   if(!contactForm.reportValidity())return;
   btn.disabled=true;const orig=btnLabel.textContent;btnLabel.textContent='Enviando...';
+  const fd=new FormData(contactForm);
+  const controller=new AbortController();const to=setTimeout(()=>controller.abort(),8000);
   try{
-   const payload={name:contactForm.name.value.trim(),email:contactForm.email.value.trim(),message:contactForm.message.value.trim()};
-   const res=await fetch('https://formsubmit.co/ajax/lethermand123@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
-   if(!res.ok)throw new Error('status '+res.status);await res.json();
+   const res=await fetch('https://formsubmit.co/ajax/lethermand123@gmail.com',{method:'POST',body:fd,signal:controller.signal,headers:{'Accept':'application/json'}});
+   clearTimeout(to);
+   if(!res.ok)throw new Error('status '+res.status);
+   await res.json();
    showStatus('Mensaje enviado. ¡Gracias!',true);contactForm.reset();
   }catch(err){
-   showStatus('No se pudo enviar. Inténtalo de nuevo.',false);
+   try{clearTimeout(to);contactForm.submit();}catch{}
   }finally{
    btn.disabled=false;btnLabel.textContent=orig;
   }
