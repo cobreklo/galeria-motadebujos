@@ -4,6 +4,14 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Motadebujos :3</title>
+<meta property="og:title" content="Galería Motadebujos"/>
+<meta property="og:description" content="CoverArts, ilustraciones y diseños únicos."/>
+<meta property="og:image" content="./img/kuroh.jpg"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Galería Motadebujos"/>
+<meta name="twitter:description" content="CoverArts, ilustraciones y diseños únicos."/>
+<meta name="twitter:image" content="./img/kuroh.jpg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -15,9 +23,11 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0df259",
-                        "background-light": "#f5f8f6",
-                        "background-dark": "#102216",
+                        "primary": "#906b4e",
+                        "background-light": "#ede6df",
+                        "background-dark": "#0f1110",
+                        "accent-1": "#6a321e",
+                        "accent-2": "#3b1c13"
                     },
                     fontFamily: {
                         "display": ["Space Grotesk", "sans-serif"]
@@ -44,10 +54,11 @@
             display: none;
         }
         #prevBtn,#nextBtn{
-            transition: transform 250ms ease, background-color 250ms ease;
+            transition: background-color 250ms ease, box-shadow 250ms ease;
         }
         #prevBtn:hover,#nextBtn:hover{
-            transform: scale(1.06);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            background-color: rgba(255,255,255,0.18);
         }
         .gallery-card{
             transition: transform 450ms cubic-bezier(.22,.61,.36,1), filter 450ms cubic-bezier(.22,.61,.36,1), box-shadow 450ms cubic-bezier(.22,.61,.36,1);
@@ -59,24 +70,33 @@
             transition: transform 700ms cubic-bezier(.22,.61,.36,1);
             will-change: transform;
         }
+        .hero-media{transform-origin:left center;transition:transform 600ms cubic-bezier(.22,.61,.36,1),border-radius 600ms;will-change:transform}
+        .hero-content{transition:transform 600ms cubic-bezier(.22,.61,.36,1),opacity 600ms;will-change:transform,opacity}
+        .reveal{opacity:0;transform:translateY(20px) scale(.98)}
+        .reveal-in{opacity:1;transform:none;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms}
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-[#EAEAEA]">
+<body class="bg-background-light dark:bg-background-dark font-display text-[#1b130f] dark:text-[#EAEAEA]">
 <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
-<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-background-dark/80 px-4 py-3 backdrop-blur-md md:px-10">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-background-light/80 dark:bg-background-dark/80 px-4 py-3 backdrop-blur-md md:px-10">
 <div class="flex items-center gap-4">
 <div class="size-6 text-primary">
 <img src="./img/motadelogo.jpg" alt="Motadebujos Logo" class="h-6 w-6 object-contain"/>
 </svg>
 </div>
-<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Motadebujos</h2>
+<h2 class="text-[#1b130f] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Motadebujos</h2>
 </div>
 <div class="hidden items-center gap-9 md:flex">
-<a class="text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#galeria">Galería</a>
-<a class="text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#contacto">Contacto</a>
-<a class="text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#redes">Redes</a>
+<a class="text-[#1b130f] dark:text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#galeria">Galería</a
+><a class="text-[#1b130f] dark:text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#contacto">Contacto</a
+><a class="text-[#1b130f] dark:text-white text-sm font-medium leading-normal transition-colors hover:text-primary" href="#redes">Redes</a>
 </div>
+<button id="themeToggle" type="button" class="relative flex h-10 w-16 items-center justify-center rounded-full bg-white/10 px-2 transition-colors hover:bg-white/20">
+<span class="material-symbols-outlined text-white text-base opacity-100 dark:opacity-0 transition-opacity">light_mode</span>
+<span class="material-symbols-outlined text-white text-base opacity-0 dark:opacity-100 transition-opacity">dark_mode</span>
+<span class="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-primary transition-transform dark:translate-x-6"></span>
+</button>
 <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105" href="#contacto">
 <span class="truncate">Solicitar Comisión</span>
 </a>
@@ -86,13 +106,18 @@
 <!-- HeroSection -->
 <section class="@container py-10" id="hero">
 <div class="flex flex-col gap-6 @[480px]:gap-8 @[864px]:flex-row">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full" data-alt="Vibrant digital art piece with neon colors depicting a futuristic urban scene." style='background-image: url("./img/kuroh.jpg");'></div>
-<div class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
+<button type="button" class="hero-media group relative w-full aspect-video rounded-lg @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full" data-alt="Vibrant digital art piece with neon colors depicting a futuristic urban scene.">
+ <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-src="./img/kuroh.jpg" style='background-image: url("./img/kuroh.jpg");'></div>
+ <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/0 to-transparent p-4">
+  <p class="text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">Galería Motadebujos</p>
+ </div>
+</button>
+<div class="hero-content reveal flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
 <div class="flex flex-col gap-2 text-left">
-<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">
+<h1 class="text-[#1b130f] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">
                                         Galeria de Arte Motadebujos :3
                                     </h1>
-<p class="text-white/80 text-sm font-normal leading-normal @[480px]:text-base">
+<p class="text-[#1b130f]/80 dark:text-white/80 text-sm font-normal leading-normal @[480px]:text-base">
                                         CoverArts, ilustraciones y diseños únicos. Bienvenido a mi portafolio.
                                     </p>
 </div>
@@ -100,18 +125,52 @@
 <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base transition-transform hover:scale-105" href="#galeria">
 <span class="truncate">Ver Galería</span>
 </a>
-<a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base transition-colors hover:bg-white/20" href="#contacto">
+<a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#1b130f]/10 text-[#1b130f] dark:bg-white/10 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base transition-colors hover:bg-[#1b130f]/15 dark:hover:bg-white/20" href="#contacto">
 <span class="truncate">Contacto</span>
 </a>
 </div>
 </div>
 </div>
 </section>
+<section class="py-16 scroll-mt-24" id="acerca">
+ <h4 class="text-[#1b130f] dark:text-white text-3xl font-bold tracking-[-0.015em] mb-6 px-4">Acerca de mí</h4>
+ <div class="px-4 grid md:grid-cols-2 gap-6">
+  <div class="reveal flex flex-col gap-3">
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-base">Artista chilena dedicada a comisiones, coverarts e ilustraciones por encargo. Su trabajo mezcla estética urbana, detalles de moda y composiciones dinámicas con colores intensos y contraste marcado, ideal para proyectos musicales y retratos estilizados.</p>
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-base">En sus piezas destaca el uso de luces y sombras con acentos neón, elementos gráficos y gestos expresivos, construyendo imágenes con personalidad que conectan con la cultura actual.</p>
+   <ul class="text-[#1b130f] dark:text-white text-base space-y-2 mt-2">
+    <li>• Ilustraciones personalizadas y retratos con estilo propio</li>
+    <li>• Cover arts para singles, EPs y álbumes</li>
+    <li>• Diseño visual con enfoque en moda, joyas y tatuajes</li>
+   </ul>
+  </div>
+  <div class="reveal grid grid-cols-2 gap-3">
+   <div class="relative aspect-[4/3] rounded-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style='background-image:url("./img/yungluna.jpg")'></div>
+   </div>
+   <div class="relative aspect-[4/3] rounded-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style='background-image:url("./img/guccimane.jpg")'></div>
+   </div>
+   <div class="relative aspect-[4/3] rounded-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style='background-image:url("./img/escobar.jpg")'></div>
+   </div>
+   <div class="relative aspect-[4/3] rounded-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style='background-image:url("./img/lameavolablockstar.jpg")'></div>
+   </div>
+  </div>
+ </div>
+ </section>
 <!-- ImageGrid Section -->
 <section class="py-10" id="galeria">
-<h2 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em] px-4 pb-5 pt-5">Galería</h2>
+<h2 class="text-[#1b130f] dark:text-white text-3xl font-bold leading-tight tracking-[-0.015em] px-4 pb-5 pt-5">Galería</h2>
+<div class="px-4 pb-4 flex flex-wrap gap-2">
+ <button class="filter-chip rounded-full px-3 py-1 text-sm bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-primary/30" data-filter="all">Todos</button>
+ <button class="filter-chip rounded-full px-3 py-1 text-sm bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-primary/30" data-filter="Ilustración">Ilustración</button>
+ <button class="filter-chip rounded-full px-3 py-1 text-sm bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-primary/30" data-filter="CoverArt">CoverArt</button>
+ <button class="filter-chip rounded-full px-3 py-1 text-sm bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-primary/30" data-filter="Diseño">Diseño</button>
+ </div>
 <div class="relative">
-<button id="prevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 backdrop-blur-md" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
+<button id="prevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-[#1b130f]/10 dark:bg-white/10 p-3 text-[#1b130f] dark:text-white hover:bg-[#1b130f]/15 dark:hover:bg-white/20 backdrop-blur-md" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
 <div id="galleryTrack" class="flex gap-6 p-4 overflow-x-auto snap-x snap-mandatory no-scrollbar">
 <div class="spacer shrink-0" aria-hidden="true"></div>
 <button type="button" class="gallery-card group relative aspect-[3/4] overflow-hidden rounded-lg shrink-0 w-[220px] md:w-[260px] lg:w-[300px] snap-center" data-alt="Digital illustration of a person with neon glasses in a dark setting.">
@@ -164,16 +223,36 @@
 </button>
 <div class="spacer shrink-0" aria-hidden="true"></div>
 </div>
-<button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 backdrop-blur-md" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
+<button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-[#1b130f]/10 dark:bg-white/10 p-3 text-[#1b130f] dark:text-white hover:bg-[#1b130f]/15 dark:hover:bg-white/20 backdrop-blur-md" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
 </div>
+<div id="carouselDots" class="flex justify-center gap-2 pb-2"></div>
+<div id="galleryGrid" class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-4"></div>
 </section>
 <!-- Contacto -->
 <section class="py-20" id="contacto">
 <div class="flex flex-col items-center justify-center gap-8 rounded-lg bg-white/5 p-8 md:flex-row md:items-start md:p-12">
 <div class="flex w-full flex-col gap-3 text-center md:w-2/5 md:text-left">
-<h3 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">¿Interesado en una comisión?</h3>
-<p class="text-white/70 text-base font-normal leading-normal">Completa el formulario y me pondré en contacto contigo a la brevedad para discutir tu idea.</p>
+<h3 class="text-[#1b130f] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">¿Interesado en una comisión?</h3>
+<p class="text-[#1b130f]/70 dark:text-white/70 text-base font-normal leading-normal">Completa el formulario y me pondré en contacto contigo a la brevedad para discutir tu idea.</p>
+ <div class="mt-2">
+  <button id="quoteGuideToggle" type="button" class="inline-flex items-center gap-2 rounded-full h-10 px-4 bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white transition-colors hover:bg-[#1b130f]/15 dark:hover:bg-white/20">
+   <span class="material-symbols-outlined">menu_book</span>
+   <span>Cómo cotizar</span>
+  </button>
  </div>
+ <div id="quoteGuide" class="reveal hidden mt-3 text-left">
+  <div class="rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-4">
+   <h5 class="text-[#1b130f] dark:text-white font-bold mb-2">Instrucciones para cotizar</h5>
+   <ol class="list-decimal pl-5 text-[#1b130f] dark:text-white text-sm space-y-2">
+    <li>Mantén el respeto y la comunicación clara.</li>
+    <li>Cuéntame tu idea; con base en ella te indicaré el precio.</li>
+    <li>Se abona el 50% para iniciar el trabajo.</li>
+    <li>Envía fotos y referencias: outfit, joyas, tatuajes; canción si es coverart.</li>
+    <li>Acordemos plazo máximo; mínimo 24 horas, fecha específica si aplica.</li>
+   </ol>
+  </div>
+ </div>
+</div>
  <form id="contactForm" action="https://formsubmit.co/lethermand123@gmail.com" method="POST" class="flex w-full flex-col gap-4 md:w-3/5">
   <input type="hidden" name="_subject" value="Nuevo mensaje desde Galería Motadebujos"/>
   <input type="hidden" name="_captcha" value="false"/>
@@ -181,15 +260,19 @@
   <input type="text" name="_honey" class="hidden" style="display:none"/>
   <div>
    <label class="sr-only" for="name">Nombre</label>
-   <input required class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="name" name="name" placeholder="Tu Nombre" type="text"/>
+   <input required class="w-full rounded-full border-[#1b130f]/20 dark:border-white/20 bg-[#1b130f]/10 dark:bg-white/10 px-4 py-3 text-[#1b130f] dark:text-white placeholder-[#1b130f]/50 dark:placeholder-white/50 focus:border-primary focus:ring-primary" id="name" name="name" placeholder="Tu Nombre" type="text"/>
   </div>
   <div>
    <label class="sr-only" for="email">Email</label>
-   <input required class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="email" name="email" placeholder="Tu Email" type="email"/>
+   <input required class="w-full rounded-full border-[#1b130f]/20 dark:border-white/20 bg-[#1b130f]/10 dark:bg-white/10 px-4 py-3 text-[#1b130f] dark:text-white placeholder-[#1b130f]/50 dark:placeholder-white/50 focus:border-primary focus:ring-primary" id="email" name="email" placeholder="Tu Email" type="email"/>
+  </div>
+  <div>
+   <label class="sr-only" for="instagram">Instagram (opcional)</label>
+   <input class="w-full rounded-full border-[#1b130f]/20 dark:border-white/20 bg-[#1b130f]/10 dark:bg-white/10 px-4 py-3 text-[#1b130f] dark:text-white placeholder-[#1b130f]/50 dark:placeholder-white/50 focus:border-primary focus:ring-primary" id="instagram" name="instagram" placeholder="@tuusuario (opcional)" type="text"/>
   </div>
   <div>
    <label class="sr-only" for="message">Mensaje</label>
-   <textarea required class="w-full rounded-lg border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="message" name="message" placeholder="Cuéntame sobre tu proyecto..." rows="4"></textarea>
+   <textarea required class="w-full rounded-lg border-[#1b130f]/20 dark:border-white/20 bg-[#1b130f]/10 dark:bg-white/10 px-4 py-3 text-[#1b130f] dark:text-white placeholder-[#1b130f]/50 dark:placeholder-white/50 focus:border-primary focus:ring-primary" id="message" name="message" placeholder="Cuéntame sobre tu proyecto..." rows="4"></textarea>
   </div>
   <button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105 md:w-auto" type="submit">
    <span class="truncate">Enviar Mensaje</span>
@@ -197,42 +280,109 @@
   <div id="contactStatus" class="mt-3 hidden rounded-full bg-white/10 px-4 py-2 text-sm text-white" aria-live="polite"></div>
  </form>
  </div>
- </section>
+</section>
 <!-- Redes Sociales :3 -->
 <section class="py-10 text-center" id="redes">
-<h4 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em] mb-6">Sígueme</h4>
+<h4 class="text-[#1b130f] dark:text-white text-3xl font-bold leading-tight tracking-[-0.015em] mb-6">Sígueme</h4>
 <div class="flex justify-center gap-6">
 <a aria-label="Instagram" class="group" href="https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
-<div class="flex size-14 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-<svg class="h-7 w-7 text-white transition-colors group-hover:text-background-dark" fill="currentColor" viewbox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>
+<div class="flex size-14 items-center justify-center rounded-full bg-[#1b130f]/10 dark:bg-white/10 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
+<svg class="h-7 w-7 text-[#1b130f] dark:text-white transition-colors group-hover:text-background-light dark:group-hover:text-background-dark" fill="currentColor" viewbox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>
 </div>
 </a>
-<a aria-label="Behance" class="group" href="#">
-<div class="flex size-14 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-<svg class="h-7 w-7 text-white transition-colors group-hover:text-background-dark" fill="currentColor" viewbox="0 0 24 24"><path d="M22 6h-6v2h6V6zM7 11.5c1.4 0 2.5-1.1 2.5-2.5S8.4 6.5 7 6.5 4.5 7.6 4.5 9s1.1 2.5 2.5 2.5zm11.5-1.5H12V8h6.5v2zm-11.5 6c1.9 0 3.5-1.6 3.5-3.5H3.5c0 1.9 1.6 3.5 3.5 3.5zM20 14h-8v2h8v-2z"></path></svg>
-</div>
-</a>
-<a aria-label="Twitter / X" class="group" href="#">
-<div class="flex size-14 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-<svg class="h-7 w-7 text-white transition-colors group-hover:text-background-dark" fill="currentColor" viewbox="0 0 24 24"><path d="m18.901 1.153 3.68 1.84a.75.75 0 0 1 .42 1.023l-3.05 6.1a.75.75 0 0 1-1.023.42L15 8.537V15a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h3.75V8.537l-4.078 2.04a.75.75 0 0 1-1.023-.42L4.92 3.016a.75.75 0 0 1 .42-1.023l3.68-1.84a.75.75 0 0 1 1.023.42l3.05 6.1a.75.75 0 0 1 0 .942l-3.05 6.1a.75.75 0 0 1-1.023.42L5 11.537V18a4.75 4.75 0 0 0 4.75 4.75h4.5A4.75 4.75 0 0 0 19 18v-6.463l4.078 2.04a.75.75 0 0 0 1.023-.42l3.05-6.1a.75.75 0 0 0-.42-1.023l-3.68-1.84a.75.75 0 0 0-1.023.42L18.9 5.016a.75.75 0 0 0 0-.942Z"></path></svg>
-</div>
-</a>
+
+
 </div>
 </section>
+<!-- Proceso -->
+<section class="py-16 scroll-mt-24" id="proceso">
+ <h4 class="text-[#1b130f] dark:text-white text-3xl font-bold tracking-[-0.015em] mb-8 px-4">Proceso</h4>
+ <div class="px-4 grid md:grid-cols-4 gap-6">
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-5">
+   <h5 class="text-[#1b130f] dark:text-white font-bold mb-2">Brief</h5>
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-sm">Recopilo ideas, referencias y objetivos de la pieza.</p>
+  </div>
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-5">
+   <h5 class="text-[#1b130f] dark:text-white font-bold mb-2">Boceto</h5>
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-sm">Exploro composición y estilo con feedback inicial.</p>
+  </div>
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-5">
+   <h5 class="text-[#1b130f] dark:text-white font-bold mb-2">Render</h5>
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-sm">Refino detalles, color y texturas.</p>
+  </div>
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-5">
+   <h5 class="text-[#1b130f] dark:text-white font-bold mb-2">Entrega</h5>
+   <p class="text-[#1b130f]/80 dark:text-white/80 text-sm">Exporto formatos finales y preparo publicación.</p>
+  </div>
+ </div>
+ </section>
+<!-- Comisiones -->
+
+<!-- Testimonios -->
+<section class="py-16 scroll-mt-24" id="testimonios">
+ <h4 class="text-[#1b130f] dark:text-white text-3xl font-bold tracking-[-0.015em] mb-8 px-4">Testimonios</h4>
+ <div class="px-4 grid md:grid-cols-3 gap-6">
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-6 text-[#1b130f] dark:text-white">“Trabajo impecable, comunicación excelente.” — Cobrechan</div>
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-6 text-[#1b130f] dark:text-white">“Captó la esencia del proyecto.” — Pololo de la mota</div>
+  <div class="reveal rounded-lg bg-[#1b130f]/10 dark:bg-white/10 p-6 text-[#1b130f] dark:text-white">“Entrega rápida y calidad top.” — Jeanette Jara</div>
+ </div>
+ </section>
 </div>
 </main>
+<!-- CTA flotante -->
+<a href="#contacto" class="fixed bottom-6 right-6 z-50 rounded-full bg-primary px-5 py-3 text-background-dark font-bold shadow-lg hover:shadow-xl">Solicitar</a>
 <footer class="mt-auto border-t border-solid border-white/10 py-6 text-center">
-<p class="text-sm text-white/60">© 2025 Motadeluca. Todos los derechos reservados.</p>
+<p class="text-sm text-[#1b130f]/60 dark:text-white/60">© 2025 Motadeluca. Todos los derechos reservados.</p>
 </footer>
 </div>
 </div>
-<div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-4">
-<button id="lightboxClose" class="absolute top-6 right-6 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><span class="material-symbols-outlined">close</span></button>
-<img id="lightboxImg" class="max-h-[85vh] max-w-[90vw] rounded-lg shadow-2xl object-contain" alt=""/>
-</div>
+<div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-4" aria-modal="true" role="dialog">
+ <div class="relative flex flex-col items-center">
+  <button id="lightboxClose" class="absolute -top-2 -right-2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><span class="material-symbols-outlined">close</span></button>
+
+  <img id="lightboxImg" class="max-h-[75vh] max-w-[90vw] rounded-lg shadow-2xl object-contain" alt=""/>
+  <div id="lightboxNav" class="absolute inset-0 max-w-[90vw] pointer-events-none">
+   <button id="lightboxPrev" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
+   <button id="lightboxNext" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
+  </div>
+  <div id="lightboxMeta" class="mt-4 w-full max-w-[90vw] rounded-lg bg-white/10 p-4 text-white">
+   <div class="flex items-center justify-between">
+    <div>
+     <h5 id="lbTitle" class="text-lg font-bold"></h5>
+     <p id="lbInfo" class="text-sm text-white/80"></p>
+    </div>
+    <div class="text-sm">
+     <span id="lbCounter"></span>
+    </div>
+   </div>
+   <div class="mt-3 flex gap-3">
+    <a id="lbShare" href="https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="rounded-full bg-white/10 px-3 py-2 text-sm hover:bg-white/20">Ver en Instagram</a>
+   </div>
+  </div>
+ </div>
+ </div>
 <script>
 (function(){
+// Datos centralizados de obras
+const artworks=[
+ {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Digital illustration of a person with neon glasses in a dark setting.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:true},
+ {title:'Findante',src:'./img/findante.jpg',alt:'Abstract art with swirling green and black patterns.',year:2023,tech:'Diseño',size:'2800x3500',tags:['Diseño'],featured:true},
+ {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Portrait with vibrant, graffiti-style makeup.',year:2022,tech:'CoverArt',size:'2500x3200',tags:['CoverArt'],featured:true},
+ {title:'likeetnn',src:'./img/liltn.jpg',alt:'Futuristic city with flying vehicles.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:false},
+ {title:'wowos',src:'./img/oswowos.jpg',alt:'Close-up eye with galaxy-like reflections.',year:2023,tech:'Diseño',size:'2600x3400',tags:['Diseño'],featured:false},
+ {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Surreal landscape with floating islands.',year:2021,tech:'CoverArt',size:'2400x3000',tags:['CoverArt'],featured:false},
+ {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Digital art with vibrant modern design.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:false},
+ {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Abstract digital composition with artistic elements.',year:2022,tech:'Diseño',size:'2800x3500',tags:['Diseño'],featured:false}
+];
 const track=document.getElementById('galleryTrack');
+function cardHtml(a,i){return `\n<button type=\"button\" class=\"gallery-card group relative aspect-[3/4] overflow-hidden rounded-lg shrink-0 w-[220px] md:w-[260px] lg:w-[300px] snap-center\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight line-clamp-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
+function gridCardHtml(a,i){return `\n<button type=\"button\" class=\"group relative aspect-[3/4] overflow-hidden rounded-lg\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" data-src=\"${a.src}\"></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
+function render(){
+ track.innerHTML=`<div class=\"spacer shrink-0\" aria-hidden=\"true\"></div>${artworks.map((a,i)=>cardHtml(a,i)).join('')}<div class=\"spacer shrink-0\" aria-hidden=\"true\"></div>`;
+ const grid=document.getElementById('galleryGrid');
+ grid.innerHTML=artworks.map((a,i)=>gridCardHtml(a,i)).join('');
+}
+render();
 const cards=[...track.querySelectorAll('.gallery-card')];
 const prev=document.getElementById('prevBtn');
 const next=document.getElementById('nextBtn');
@@ -245,19 +395,62 @@ function anim(left){const max=track.scrollWidth-track.clientWidth;left=Math.max(
 function scrollToIdx(i){if(i<0||i>=cards.length)return;anim(targetLeftFor(i));}
 prev.addEventListener('click',()=>scrollToIdx(currentIndex()-1));
 next.addEventListener('click',()=>scrollToIdx(currentIndex()+1));
-function active(){const c=centerX();cards.forEach(e=>{const r=e.getBoundingClientRect();const d=Math.abs(r.left+r.width/2-c);const sc=Math.max(0.9,1.08-d/800);const br=Math.max(0.85,1.18-d/800);const sh=Math.max(0,0.35-d/900);e.style.transform=`scale(${sc})`;e.style.filter=`brightness(${br})`;e.style.boxShadow=`0 20px 60px rgba(0,0,0,${sh})`;});}
+function active(){const c=centerX();cards.forEach(e=>{const r=e.getBoundingClientRect();const d=Math.abs(r.left+r.width/2-c);const sc=Math.max(0.9,1.08-d/800);const br=Math.max(0.85,1.18-d/800);const sh=Math.max(0,0.35-d/900);e.style.transform=`scale(${sc})`;e.style.filter=`brightness(${br})`;e.style.boxShadow=`0 20px 60px rgba(0,0,0,${sh})`;});highlightDots();}
 let t;track.addEventListener('scroll',()=>{active();clearTimeout(t);t=setTimeout(()=>scrollToIdx(currentIndex()),120);},{passive:true});
+// Dots de paginación
+const dots=document.getElementById('carouselDots');
+function renderDots(){const n=cards.length;dots.innerHTML=Array.from({length:n},(_,i)=>`<button class=\"h-2 w-2 rounded-full bg-white/30\" data-i=\"${i}\"></button>`).join('');[...dots.children].forEach((d,i)=>d.addEventListener('click',()=>scrollToIdx(i)));}
+function highlightDots(){const i=currentIndex();[...dots.children].forEach((d,idx)=>{d.classList.toggle('bg-primary',idx===i);d.classList.toggle('bg-white/30',idx!==i);});}
+renderDots();highlightDots();
 window.addEventListener('resize',()=>{updateSpacers();scrollToIdx(currentIndex());active();});
 updateSpacers();scrollToIdx(0);active();
 const overlay=document.getElementById('lightbox');
 const img=document.getElementById('lightboxImg');
 const close=document.getElementById('lightboxClose');
-function open(src,alt){img.src=src;img.alt=alt||'';overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');}
+const lbPrev=document.getElementById('lightboxPrev');
+const lbNext=document.getElementById('lightboxNext');
+const lbTitle=document.getElementById('lbTitle');
+const lbInfo=document.getElementById('lbInfo');
+const lbCounter=document.getElementById('lbCounter');
+const lbShare=document.getElementById('lbShare');
+let current=0;let heroMode=false;
+function setMeta(i){const art=artworks[i];if(!art)return;lbTitle.textContent=art.title||'';lbInfo.textContent=`${art.tech||''} • ${art.year||''} • ${art.size||''}`;lbCounter.textContent=`${i+1}/${artworks.length}`;lbShare.href=`https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==`;img.src=art.src;img.alt=art.alt||'';preloadAdjacent(i);} 
+function openIndex(i){current=i;heroMode=false;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.remove('hidden');setMeta(i);trapFocus();}
 function closeLb(){overlay.classList.add('hidden');overlay.classList.remove('flex');document.body.classList.remove('overflow-hidden');}
-cards.forEach(card=>{card.addEventListener('click',()=>{const bg=card.querySelector('.bg-cover').style.backgroundImage;const a=bg.indexOf('url("')+5;const b=bg.lastIndexOf('")');const u=bg.slice(a,b);open(u,card.dataset.alt);});});
+cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
+document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeLb();});
 close.addEventListener('click',closeLb);
 window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+lbPrev.addEventListener('click',()=>{current=Math.max(0,current-1);setMeta(current);});
+lbNext.addEventListener('click',()=>{current=Math.min(artworks.length-1,current+1);setMeta(current);});
+window.addEventListener('keydown',e=>{if(heroMode)return;if(e.key==='ArrowLeft'){lbPrev.click();}else if(e.key==='ArrowRight'){lbNext.click();}});
+let sx=0;overlay.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});overlay.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(dx>40)lbPrev.click();else if(dx<-40)lbNext.click();});
+const ioImg=new IntersectionObserver((entries)=>{entries.forEach(en=>{if(en.isIntersecting){const box=en.target;const src=box.getAttribute('data-src');box.style.backgroundImage=`url("${src}")`;ioImg.unobserve(box);}})},{rootMargin:'150px'});
+document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(el));
+function preloadAdjacent(i){[i-1,i+1].forEach(k=>{const el=cards[k];if(!el)return;const src=el.dataset.src||el.querySelector('.bg-cover').style.backgroundImage.replace(/^url\("|"\)$/g,'');const im=new Image();im.src=src;});}
+function trapFocus(){const f=[close,lbPrev,lbNext].filter(el=>!el.classList.contains('hidden'));let idx=0;f.forEach(el=>el.setAttribute('tabindex','0'));overlay.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();if(!f.length){close.focus();return;}idx=(idx+(e.shiftKey?-1:1)+f.length)%f.length;f[idx].focus();}});}
+const chips=[...document.querySelectorAll('.filter-chip')];
+chips.forEach(ch=>ch.addEventListener('click',()=>{const tag=ch.dataset.filter;chips.forEach(c=>c.classList.remove('bg-primary/30'));ch.classList.add('bg-primary/30');const grid=document.getElementById('galleryGrid');const idx=artworks.map((a,i)=>({a,i})).filter(x=>tag==='all'||x.a.tags.includes(tag));grid.innerHTML=idx.map(({a,i})=>gridCardHtml(a,i)).join('');document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(el));document.querySelectorAll('#galleryGrid button').forEach(el=>el.addEventListener('click',()=>openIndex(Number(el.dataset.index))));}));
+function setupHeroScroll(){
+ const hero=document.getElementById('hero'); if(!hero) return;
+ const media=hero.querySelector('.hero-media'); const content=hero.querySelector('.hero-content');
+ let ticking=false;
+ function apply(){
+  const top=hero.offsetTop; const h=hero.offsetHeight; const y=window.scrollY;
+  const p=Math.max(0,Math.min(1,(y-top)/(h*0.8)));
+  const scale=1-0.12*p; const x=-60*p;
+  if(media){media.style.transform=`translateX(${x}px) scale(${scale})`;}
+  if(content){content.style.opacity=String(1-p*0.25); content.style.transform=`translateX(${x*0.2}px)`;}
+  ticking=false;
+ }
+ function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(apply);}}
+ apply(); window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',apply);
+}
+function setupReveal(){
+ const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal-in');io.unobserve(e.target);}})},{threshold:0.15});
+ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
 const contactForm=document.getElementById('contactForm');
 if(contactForm){
  const status=document.getElementById('contactStatus');
@@ -287,6 +480,24 @@ if(contactForm){
   }
  });
 }
-})(); 
+function initThemeToggle(){
+ const root=document.documentElement;const btn=document.getElementById('themeToggle');
+ const saved=localStorage.getItem('theme');
+ let mode=saved||'dark';
+ apply();
+ function apply(){root.classList.toggle('dark',mode==='dark');root.classList.toggle('sepia',mode==='sepia');}
+ if(btn){btn.setAttribute('aria-pressed',mode==='dark'?'true':'false');
+  btn.addEventListener('click',()=>{mode=mode==='light'?'dark':mode==='dark'?'sepia':'light';localStorage.setItem('theme',mode);apply();});
+ }
+}
+initThemeToggle();
+setupHeroScroll();
+setupReveal();
+const quoteBtn=document.getElementById('quoteGuideToggle');
+const quoteBox=document.getElementById('quoteGuide');
+if(quoteBtn&&quoteBox){quoteBtn.setAttribute('aria-expanded','false');quoteBtn.addEventListener('click',()=>{const open=!quoteBox.classList.contains('hidden');quoteBox.classList.toggle('hidden',open);quoteBtn.setAttribute('aria-expanded',open?'false':'true');});}
+const heroMedia=document.querySelector('#hero .hero-media');
+if(heroMedia){heroMedia.addEventListener('click',()=>{const bg=heroMedia.querySelector('.bg-cover');const src=(bg&&bg.getAttribute('data-src'))||((bg&&bg.style.backgroundImage)||'').replace(/^url\("|"\)$/g,'');heroMode=true;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.add('hidden');img.src=src;img.alt=heroMedia.getAttribute('data-alt')||'';lbTitle.textContent='Galería Motadebujos';lbInfo.textContent='';lbCounter.textContent='';trapFocus();});}
+})();
 </script>
 </body></html>
