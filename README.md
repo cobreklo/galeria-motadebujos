@@ -1,87 +1,87 @@
+[c:\Users\Claudio\Desktop\galeriamota\README.md]
 # Galería Motadebujos
 
-Portafolio de arte en una sola página con un carrusel inmersivo y un visor de imágenes a pantalla completa. Construido con Tailwind vía CDN, sin dependencias adicionales.
+Portfolio web de una artista chilena dedicada a comisiones, cover arts e ilustraciones por encargo. El sitio prioriza una experiencia inmersiva y accesible: carrusel con detalle ampliado, filtros, lightbox optimizado, temas claro/oscuro/sepia y un formulario de contacto listo para recibir solicitudes.
 
-## Características Principales
-- Carrusel horizontal con `snap-center`, controles `Anterior/Siguiente` y desplazamiento con easing.
-- Auto-snap al finalizar el scroll manual para centrar la tarjeta más cercana.
-- Efecto inmersivo: escala, brillo y sombra sutil basadas en la posición de la tarjeta.
-- Lightbox para ampliar imágenes al hacer clic, con cierre por botón, clic fuera y tecla `Esc`.
-- Diseño responsive y estilizado con Tailwind, sin configuración de build.
+## Demo y Uso
+- Local: abre `index.html` (en este repositorio el archivo se llama `index.html`; en tu entorno actual se usa `code.html`).
+- GitHub Pages: habilita Pages desde la configuración del repositorio y establece la rama (por ejemplo `main`) como fuente. La web es estática y no requiere build.
+- Vercel: importa el repo y despliega como proyecto estático.
 
-## Estructura del Proyecto
-- `code.html`: único archivo principal que contiene el HTML, estilos y scripts.
-- `img/`: carpeta con las imágenes usadas en la galería.
+## Características
+- Carrusel inmersivo:
+  - Snap scrolling, controles laterales y puntos de paginación.
+  - Centrado preciso del ítem activo y animaciones suaves.
+- Lightbox:
+  - Detalle con metadata (título, técnica, año, tamaño).
+  - Navegación por teclado y swipe en móvil, con botones laterales visibles.
+  - Botón “Ver en Instagram” que apunta al perfil del apartado de Redes.
+  - En el caso de la imagen del Hero, se abre sin controles de navegación.
+- Galería (Grid):
+  - Hover con escala del fondo y título que aparece, igual al carrusel.
+  - Clic para ver el detalle en el lightbox.
+- Filtros:
+  - Chips para “Todos / Ilustración / CoverArt / Diseño” que filtran el grid.
+- Hero:
+  - Animación al scroll (shrink + desplazamiento).
+  - Hover y clic para abrir en detalle.
+- Temas:
+  - Interruptor con ciclo Light/Dark/Sepia y persistencia en `localStorage`.
+- Rendimiento:
+  - Lazy load del grid y prefetch de imágenes adyacentes en el lightbox.
+- Accesibilidad:
+  - Focus-trap en el lightbox, ARIA, cierre con `Esc`.
+- Contacto:
+  - Formulario integrado con FormSubmit.
+  - Campos: nombre, email, mensaje e Instagram (opcional).
+  - Botón “Cómo cotizar” que despliega guía para solicitar una comisión.
+- Secciones:
+  - Acerca de mí, Proceso, Testimonios.
+- SEO:
+  - Metadatos Open Graph y Twitter Cards.
+- Conversión:
+  - CTA flotante “Solicitar”.
 
-Secciones en `code.html`:
-- Hero: presentación y llamada a ver la galería.
-- Galería: carrusel inmersivo con tarjetas (`code.html:96` para el título, `code.html:99` para el contenedor `#galleryTrack`).
-- Contacto: formulario simple (`code.html:153`).
-- Redes: enlaces sociales (`code.html:179`).
+## Estructura
+- `index.html` (en tu entorno: `code.html`): contiene todo el marcado, estilos utilitarios y JavaScript vanilla.
+- `img/`: carpeta con las obras y assets.
 
-## Requisitos
-- Navegador moderno (Chrome, Edge, Firefox, Safari).
-- No requiere instalación ni servidor; basta abrir el archivo `code.html`.
+## Contenido dinámico (artworks)
+En `index.html` (`code.html`) se centralizan las obras en un arreglo `artworks`:
+```js
+const artworks = [
+  { title: 'Young Lunv', src: './img/yungluna.jpg', alt: '...', year: 2024, tech: 'Ilustración', size: '3000x4000', tags: ['Ilustración'], featured: true },
+  // ...
+];
+```
+- `tags`: controla los filtros.
+- El carrusel y el grid se renderizan automáticamente desde este arreglo.
+- Para añadir una obra, agrega un objeto nuevo con sus datos y coloca el archivo en `img/`.
 
-## Cómo Ejecutar
-- Doble clic en `code.html` para abrirlo en el navegador.
-- Opcional (servidor local):
-  - Node: `npx serve .`
-  - Python: `python -m http.server`
-  - Luego visita `http://localhost:8000` o el puerto que corresponda.
+## Personalización
+- Instagram:
+  - Perfil en Redes y botón “Ver en Instagram” del lightbox apuntan al mismo enlace. Puedes actualizarlo en `index.html` (`code.html`) buscando `motadebujos`.
+- Paleta:
+  - Las clases de color (`text-[#1b130f]`, `bg-primary`, etc.) pueden ajustarse para afinar el tema claro/oscuro/sepia.
+- Metadatos:
+  - Edita los `<meta>` OG/Twitter para título, descripción e imagen.
 
-## Personalización Rápida
-- Colores, tipografías y radios:
-  - Ajusta el bloque de configuración de Tailwind en `code.html:13-33`.
-- Añadir/editar tarjetas:
-  - Duplica un bloque `.gallery-card` dentro de `#galleryTrack` y cambia la URL en `style='background-image: url("./img/...")'` y el título dentro del `<p>`.
-- Tamaño de tarjetas:
-  - Modifica las clases de ancho `w-[220px] md:w-[260px] lg:w-[300px]` en cada `.gallery-card`.
-- Intensidad del efecto inmersivo:
-  - Ajusta los cálculos en el script (escala/brillo/sombra) dentro de `active()` (`code.html:211+`), por ejemplo cambiando límites y divisores.
+## Formulario de contacto
+- Usa FormSubmit (funciona en GitHub Pages y Vercel).
+- En caso de que `fetch` falle (timeout/red), hay un fallback que envía el formulario por submit tradicional.
+- Instagram (opcional) se envía como campo adicional.
 
-## Carrusel: Detalles Técnicos
-- Contenedor: `#galleryTrack` (`code.html:99`) con `overflow-x-auto`, `snap-mandatory` y ocultación de barra de scroll.
-- Controles: `#prevBtn` y `#nextBtn` (`code.html:98,149`) con transición y escala al hover.
-- Alineación de bordes:
-  - Se insertan separadores invisibles al inicio y al final para que la primera y última imagen puedan centrarse correctamente.
-- Easing personalizado:
-  - El desplazamiento por botones usa una animación con easing cúbico para mayor suavidad.
+## Guía para cotizar (desplegable)
+- Respeto y comunicación clara.
+- Descripción de la idea; el precio se ajusta según alcance.
+- Abono del 50% para iniciar.
+- Fotos y referencias (outfit, joyas, tatuajes; canción si es cover art).
+- Plazo máximo acordado (mínimo 24 h; fecha específica si aplica).
 
-## Lightbox
-- Overlay: `#lightbox` al final del `body` (`code.html:206-209`).
-- Apertura:
-  - Al hacer clic en una tarjeta, se extrae la URL del `background-image` y se muestra en el `<img id="lightboxImg">`.
-- Cierre:
-  - Botón `close`, clic fuera del contenido o `Escape`.
-
-## Accesibilidad
-- Texto alternativo:
-  - Usa `data-alt` en cada `.gallery-card` para describir la imagen (se pasa al `alt` del lightbox).
-- Navegación con teclado:
-  - Lightbox cerrable con `Esc`. Se puede extender para focos y roles ARIA si se requiere.
-
-## Buenas Prácticas con Imágenes
-- Comprime imágenes (JPEG/WEBP) y usa resoluciones acordes (ej. 1200–1600px lado mayor).
-- Nombra archivos con sentido y evita espacios.
-- Mantén la carpeta `img/` organizada por colecciones si crece el catálogo.
-
-## Despliegue
-- Al ser estático, puedes subirlo a:
-  - GitHub Pages (pon `code.html` como `index.html`).
-  - Netlify, Vercel o cualquier hosting estático.
-- Asegúrate de subir la carpeta `img/` junto al HTML.
-
-## Referencias de Código
-- Configuración Tailwind: `c:\Users\Claudio\Desktop\galeriamota\code.html:13`
-- Contenedor del carrusel: `c:\Users\Claudio\Desktop\galeriamota\code.html:99`
-- Botones de navegación: `c:\Users\Claudio\Desktop\galeriamota\code.html:98,149`
-- Lightbox: `c:\Users\Claudio\Desktop\galeriamota\code.html:206-209`
-- Script del carrusel y lightbox: `c:\Users\Claudio\Desktop\galeriamota\code.html:211-231`
+## Desarrollo
+- HTML + CSS utilitario + JavaScript vanilla.
+- No requiere build ni dependencias.
+- Para editar: trabaja sobre `index.html` (`code.html`) y actualiza `artworks`, enlaces y estilos.
 
 ## Licencia
-- Sin licencia especificada. Si lo deseas, añade una sección de licencia (MIT, CC, etc.) según tus preferencias.
-
-## Créditos
-- Arte y diseño: Motadebujos.
-- Tecnologías: Tailwind CSS vía CDN.
+Proyecto de portfolio. El contenido visual pertenece a la artista. Ajusta la licencia según tus necesidades antes de publicar.
