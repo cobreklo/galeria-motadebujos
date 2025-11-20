@@ -173,26 +173,31 @@
 <div class="flex w-full flex-col gap-3 text-center md:w-2/5 md:text-left">
 <h3 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">¿Interesado en una comisión?</h3>
 <p class="text-white/70 text-base font-normal leading-normal">Completa el formulario y me pondré en contacto contigo a la brevedad para discutir tu idea.</p>
-</div>
-<form class="flex w-full flex-col gap-4 md:w-3/5">
-<div>
-<label class="sr-only" for="name">Nombre</label>
-<input class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="name" name="name" placeholder="Tu Nombre" type="text"/>
-</div>
-<div>
-<label class="sr-only" for="email">Email</label>
-<input class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="email" name="email" placeholder="Tu Email" type="email"/>
-</div>
-<div>
-<label class="sr-only" for="message">Mensaje</label>
-<textarea class="w-full rounded-lg border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="message" name="message" placeholder="Cuéntame sobre tu proyecto..." rows="4"></textarea>
-</div>
-<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105 md:w-auto" type="submit">
-<span class="truncate">Enviar Mensaje</span>
-</button>
-</form>
-</div>
-</section>
+ </div>
+ <form id="contactForm" action="https://formsubmit.co/lethermand123@gmail.com" method="POST" class="flex w-full flex-col gap-4 md:w-3/5">
+  <input type="hidden" name="_subject" value="Nuevo mensaje desde Galería Motadebujos"/>
+  <input type="hidden" name="_captcha" value="false"/>
+  <input type="hidden" name="_template" value="table"/>
+  <input type="text" name="_honey" class="hidden" style="display:none"/>
+  <div>
+   <label class="sr-only" for="name">Nombre</label>
+   <input required class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="name" name="name" placeholder="Tu Nombre" type="text"/>
+  </div>
+  <div>
+   <label class="sr-only" for="email">Email</label>
+   <input required class="w-full rounded-full border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="email" name="email" placeholder="Tu Email" type="email"/>
+  </div>
+  <div>
+   <label class="sr-only" for="message">Mensaje</label>
+   <textarea required class="w-full rounded-lg border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:ring-primary" id="message" name="message" placeholder="Cuéntame sobre tu proyecto..." rows="4"></textarea>
+  </div>
+  <button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105 md:w-auto" type="submit">
+   <span class="truncate">Enviar Mensaje</span>
+  </button>
+  <div id="contactStatus" class="mt-3 hidden rounded-full bg-white/10 px-4 py-2 text-sm text-white" aria-live="polite"></div>
+ </form>
+ </div>
+ </section>
 <!-- Redes Sociales :3 -->
 <section class="py-10 text-center" id="redes">
 <h4 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em] mb-6">Sígueme</h4>
@@ -253,6 +258,32 @@ cards.forEach(card=>{card.addEventListener('click',()=>{const bg=card.querySelec
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeLb();});
 close.addEventListener('click',closeLb);
 window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
-})();
+const contactForm=document.getElementById('contactForm');
+if(contactForm){
+ const status=document.getElementById('contactStatus');
+ const btn=contactForm.querySelector('button[type="submit"]');
+ const btnLabel=btn.querySelector('span');
+ function showStatus(msg,ok){
+  if(!status)return;status.textContent=msg;status.classList.remove('hidden');
+  status.classList.toggle('bg-primary',!!ok);
+  status.classList.toggle('bg-white/10',!ok);
+ }
+ contactForm.addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  if(!contactForm.reportValidity())return;
+  btn.disabled=true;const orig=btnLabel.textContent;btnLabel.textContent='Enviando...';
+  try{
+   const payload={name:contactForm.name.value.trim(),email:contactForm.email.value.trim(),message:contactForm.message.value.trim()};
+   const res=await fetch('https://formsubmit.co/ajax/lethermand123@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+   if(!res.ok)throw new Error('status '+res.status);await res.json();
+   showStatus('Mensaje enviado. ¡Gracias!',true);contactForm.reset();
+  }catch(err){
+   showStatus('No se pudo enviar. Inténtalo de nuevo.',false);
+  }finally{
+   btn.disabled=false;btnLabel.textContent=orig;
+  }
+ });
+}
+})(); 
 </script>
 </body></html>
