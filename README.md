@@ -1,4 +1,3 @@
-[c:\Users\Claudio\Desktop\galeriamota\README.md]
 # Galería Motadebujos
 
 Portfolio web de una artista chilena dedicada a comisiones, cover arts e ilustraciones por encargo. El sitio prioriza una experiencia inmersiva y accesible: carrusel con detalle ampliado, filtros, lightbox optimizado, temas claro/oscuro/sepia y un formulario de contacto listo para recibir solicitudes.
