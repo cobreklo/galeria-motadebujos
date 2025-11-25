@@ -345,9 +345,9 @@
   <button id="lightboxClose" class="absolute -top-2 -right-2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><span class="material-symbols-outlined">close</span></button>
 
   <img id="lightboxImg" class="max-h-[75vh] max-w-[90vw] rounded-lg shadow-2xl object-contain" alt=""/>
-  <div id="lightboxNav" class="absolute inset-0 max-w-[90vw] pointer-events-none">
-   <button id="lightboxPrev" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
-   <button id="lightboxNext" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
+  <div id="lightboxNav" class="absolute inset-y-0 -left-8 -right-8 max-w-[90vw] pointer-events-none">
+   <button id="lightboxPrev" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
+   <button id="lightboxNext" class="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
   </div>
   <div id="lightboxMeta" class="mt-4 w-full max-w-[90vw] rounded-lg bg-white/10 p-4 text-white">
    <div class="flex items-center justify-between">
@@ -370,16 +370,16 @@
 (function(){
 // Datos centralizados de obras
 let artworks=[
- {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Retrato digital con acentos neón.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Retrato urbano con luces neón y contraste marcado.'},
- {title:'Findante',src:'./img/findante.jpg',alt:'Composición abstracta verde/negro.',year:2023,category:'Diseño',size:'3000x3000',desc:'Texturas y formas orgánicas con paleta verde y negro.'},
- {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Retrato estilizado con maquillaje graffiti.',year:2022,category:'CoverArt',size:'3000x3000',desc:'Estética potente para proyectos musicales.'},
- {title:'likeetnn',src:'./img/liltn.jpg',alt:'Ciudad futurista con vehículos voladores.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ambiente sci‑fi con luz fría y arquitectura dinámica.'},
- {title:'wowos',src:'./img/oswowos.jpg',alt:'Close‑up de ojo con reflejos galácticos.',year:2023,category:'Diseño',size:'3000x3000',desc:'Detalle visual con brillo y profundidad.'},
- {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Paisaje surreal con islas flotantes.',year:2021,category:'CoverArt',size:'3000x3000',desc:'Composición atmosférica de carácter onírico.'},
- {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'},
- {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'Elementos gráficos con identidad callejera.'},
- {title:'miloJ',src:'./img/miloJ.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'},
- {title:'s1naka',src:'./img/s1naka.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'}
+ {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Retrato digital con acentos neón.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración para Young Lunv.'},
+ {title:'Findante',src:'./img/findante.jpg',alt:'Composición abstracta verde/negro.',year:2023,category:'Diseño',size:'3000x3000',desc:'Colaboración con el artista Findante.'},
+ {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Retrato estilizado con maquillaje graffiti.',year:2022,category:'CoverArt',size:'3000x3000',desc:'CoverArt/Ilustración para FlayteComoGucciMane.'},
+ {title:'likeetnn',src:'./img/liltn.jpg',alt:'Ciudad futurista con vehículos voladores.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración para likeetnn'},
+ {title:'wowos',src:'./img/oswowos.jpg',alt:'Close‑up de ojo con reflejos galácticos.',year:2023,category:'Diseño',size:'3000x3000',desc:'Ilustración de mi amor mwahaha'},
+ {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Paisaje surreal con islas flotantes.',year:2021,category:'CoverArt',size:'3000x3000',desc:'Ilustración para Escobar 316'},
+ {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Colaboración con @knueevee'},
+ {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'CoverArt para "CALLEJERO ESPIRITUAL" by Bloockkstar'},
+ {title:'miloJ',src:'./img/miloJ.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración de Baby Milo & Donba :3.'},
+ {title:'s1naka',src:'./img/s1naka.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Diseño de S1NAKA.'}
 ];
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
