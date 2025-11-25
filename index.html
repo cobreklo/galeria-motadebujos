@@ -377,7 +377,9 @@ let artworks=[
  {title:'wowos',src:'./img/oswowos.jpg',alt:'Close‑up de ojo con reflejos galácticos.',year:2023,category:'Diseño',size:'3000x3000',desc:'Detalle visual con brillo y profundidad.'},
  {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Paisaje surreal con islas flotantes.',year:2021,category:'CoverArt',size:'3000x3000',desc:'Composición atmosférica de carácter onírico.'},
  {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'},
- {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'Elementos gráficos con identidad callejera.'}
+ {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'Elementos gráficos con identidad callejera.'},
+ {title:'miloJ',src:'./img/miloJ.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'},
+ {title:'s1naka',src:'./img/s1naka.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'}
 ];
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
