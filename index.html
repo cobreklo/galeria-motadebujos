@@ -74,6 +74,7 @@
         .hero-content{transition:transform 600ms cubic-bezier(.22,.61,.36,1),opacity 600ms;will-change:transform,opacity}
         .reveal{opacity:0;transform:translateY(20px) scale(.98)}
         .reveal-in{opacity:1;transform:none;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms}
+        html.sepia { filter: sepia(0.9) saturate(1.05) contrast(1.02); }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-[#1b130f] dark:text-[#EAEAEA]">
@@ -96,6 +97,9 @@
 <span class="material-symbols-outlined text-white text-base opacity-100 dark:opacity-0 transition-opacity">light_mode</span>
 <span class="material-symbols-outlined text-white text-base opacity-0 dark:opacity-100 transition-opacity">dark_mode</span>
 <span class="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-primary transition-transform dark:translate-x-6"></span>
+</button>
+<button id="sepiaToggle" type="button" class="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 px-2 text-white transition-colors hover:bg-white/20" aria-label="Modo sepia">
+ <span class="material-symbols-outlined">visibility</span>
 </button>
 <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105" href="#contacto">
 <span class="truncate">Solicitar Comisión</span>
@@ -350,6 +354,7 @@
     <div>
      <h5 id="lbTitle" class="text-lg font-bold"></h5>
      <p id="lbInfo" class="text-sm text-white/80"></p>
+     <p id="lbDesc" class="mt-2 text-sm text-white/80"></p>
     </div>
     <div class="text-sm">
      <span id="lbCounter"></span>
@@ -364,16 +369,17 @@
 <script>
 (function(){
 // Datos centralizados de obras
-const artworks=[
- {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Digital illustration of a person with neon glasses in a dark setting.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:true},
- {title:'Findante',src:'./img/findante.jpg',alt:'Abstract art with swirling green and black patterns.',year:2023,tech:'Diseño',size:'2800x3500',tags:['Diseño'],featured:true},
- {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Portrait with vibrant, graffiti-style makeup.',year:2022,tech:'CoverArt',size:'2500x3200',tags:['CoverArt'],featured:true},
- {title:'likeetnn',src:'./img/liltn.jpg',alt:'Futuristic city with flying vehicles.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:false},
- {title:'wowos',src:'./img/oswowos.jpg',alt:'Close-up eye with galaxy-like reflections.',year:2023,tech:'Diseño',size:'2600x3400',tags:['Diseño'],featured:false},
- {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Surreal landscape with floating islands.',year:2021,tech:'CoverArt',size:'2400x3000',tags:['CoverArt'],featured:false},
- {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Digital art with vibrant modern design.',year:2024,tech:'Ilustración',size:'3000x4000',tags:['Ilustración'],featured:false},
- {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Abstract digital composition with artistic elements.',year:2022,tech:'Diseño',size:'2800x3500',tags:['Diseño'],featured:false}
+let artworks=[
+ {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Retrato digital con acentos neón.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Retrato urbano con luces neón y contraste marcado.'},
+ {title:'Findante',src:'./img/findante.jpg',alt:'Composición abstracta verde/negro.',year:2023,category:'Diseño',size:'3000x3000',desc:'Texturas y formas orgánicas con paleta verde y negro.'},
+ {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Retrato estilizado con maquillaje graffiti.',year:2022,category:'CoverArt',size:'3000x3000',desc:'Estética potente para proyectos musicales.'},
+ {title:'likeetnn',src:'./img/liltn.jpg',alt:'Ciudad futurista con vehículos voladores.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ambiente sci‑fi con luz fría y arquitectura dinámica.'},
+ {title:'wowos',src:'./img/oswowos.jpg',alt:'Close‑up de ojo con reflejos galácticos.',year:2023,category:'Diseño',size:'3000x3000',desc:'Detalle visual con brillo y profundidad.'},
+ {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Paisaje surreal con islas flotantes.',year:2021,category:'CoverArt',size:'3000x3000',desc:'Composición atmosférica de carácter onírico.'},
+ {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Color intenso y diseño contemporáneo.'},
+ {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'Elementos gráficos con identidad callejera.'}
 ];
+function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
 function cardHtml(a,i){return `\n<button type=\"button\" class=\"gallery-card group relative aspect-[3/4] overflow-hidden rounded-lg shrink-0 w-[220px] md:w-[260px] lg:w-[300px] snap-center\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight line-clamp-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
 function gridCardHtml(a,i){return `\n<button type=\"button\" class=\"group relative aspect-[3/4] overflow-hidden rounded-lg\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" data-src=\"${a.src}\"></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
@@ -383,6 +389,8 @@ function render(){
  grid.innerHTML=artworks.map((a,i)=>gridCardHtml(a,i)).join('');
 }
 render();
+async function loadInstagram(){try{const r=await fetch('/api/instagram');const j=await r.json();const items=(j.data||j).filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM').map(p=>({title:(p.caption||'Instagram').slice(0,40),src:p.media_type==='CAROUSEL_ALBUM'?(p.thumbnail_url||p.media_url):p.media_url,alt:p.caption||'',year:new Date(p.timestamp).getFullYear(),category:inferCategory(p.caption),size:'3000x3000',desc:p.caption||'',instagramUrl:p.permalink}));artworks=[...items,...artworks];render();cards=[...track.querySelectorAll('.gallery-card')];cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});updateSpacers();active();}catch(e){}}
+loadInstagram();
 const cards=[...track.querySelectorAll('.gallery-card')];
 const prev=document.getElementById('prevBtn');
 const next=document.getElementById('nextBtn');
@@ -414,7 +422,7 @@ const lbInfo=document.getElementById('lbInfo');
 const lbCounter=document.getElementById('lbCounter');
 const lbShare=document.getElementById('lbShare');
 let current=0;let heroMode=false;
-function setMeta(i){const art=artworks[i];if(!art)return;lbTitle.textContent=art.title||'';lbInfo.textContent=`${art.tech||''} • ${art.year||''} • ${art.size||''}`;lbCounter.textContent=`${i+1}/${artworks.length}`;lbShare.href=`https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==`;img.src=art.src;img.alt=art.alt||'';preloadAdjacent(i);} 
+function setMeta(i){const art=artworks[i];if(!art)return;lbTitle.textContent=art.title||'';lbInfo.textContent=`${art.category||''} • ${art.year||''} • ${art.size||''}`;lbDesc.textContent=art.desc||'';lbCounter.textContent=`${i+1}/${artworks.length}`;lbShare.href=art.instagramUrl||'https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';img.src=art.src;img.alt=art.alt||'';preloadAdjacent(i);} 
 function openIndex(i){current=i;heroMode=false;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.remove('hidden');setMeta(i);trapFocus();}
 function closeLb(){overlay.classList.add('hidden');overlay.classList.remove('flex');document.body.classList.remove('overflow-hidden');}
 cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
@@ -431,7 +439,7 @@ document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(e
 function preloadAdjacent(i){[i-1,i+1].forEach(k=>{const el=cards[k];if(!el)return;const src=el.dataset.src||el.querySelector('.bg-cover').style.backgroundImage.replace(/^url\("|"\)$/g,'');const im=new Image();im.src=src;});}
 function trapFocus(){const f=[close,lbPrev,lbNext].filter(el=>!el.classList.contains('hidden'));let idx=0;f.forEach(el=>el.setAttribute('tabindex','0'));overlay.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();if(!f.length){close.focus();return;}idx=(idx+(e.shiftKey?-1:1)+f.length)%f.length;f[idx].focus();}});}
 const chips=[...document.querySelectorAll('.filter-chip')];
-chips.forEach(ch=>ch.addEventListener('click',()=>{const tag=ch.dataset.filter;chips.forEach(c=>c.classList.remove('bg-primary/30'));ch.classList.add('bg-primary/30');const grid=document.getElementById('galleryGrid');const idx=artworks.map((a,i)=>({a,i})).filter(x=>tag==='all'||x.a.tags.includes(tag));grid.innerHTML=idx.map(({a,i})=>gridCardHtml(a,i)).join('');document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(el));document.querySelectorAll('#galleryGrid button').forEach(el=>el.addEventListener('click',()=>openIndex(Number(el.dataset.index))));}));
+chips.forEach(ch=>ch.addEventListener('click',()=>{const tag=ch.dataset.filter;chips.forEach(c=>c.classList.remove('bg-primary/30'));ch.classList.add('bg-primary/30');const grid=document.getElementById('galleryGrid');const idx=artworks.map((a,i)=>({a,i})).filter(x=>tag==='all'||x.a.category===tag);grid.innerHTML=idx.map(({a,i})=>gridCardHtml(a,i)).join('');document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(el));document.querySelectorAll('#galleryGrid button').forEach(el=>el.addEventListener('click',()=>openIndex(Number(el.dataset.index))));}));
 function setupHeroScroll(){
  const hero=document.getElementById('hero'); if(!hero) return;
  const media=hero.querySelector('.hero-media'); const content=hero.querySelector('.hero-content');
@@ -483,14 +491,25 @@ if(contactForm){
 function initThemeToggle(){
  const root=document.documentElement;const btn=document.getElementById('themeToggle');
  const saved=localStorage.getItem('theme');
- let mode=saved||'dark';
+ let mode=saved==='light'?'light':'dark';
  apply();
- function apply(){root.classList.toggle('dark',mode==='dark');root.classList.toggle('sepia',mode==='sepia');}
+ function apply(){root.classList.toggle('dark',mode==='dark');}
  if(btn){btn.setAttribute('aria-pressed',mode==='dark'?'true':'false');
-  btn.addEventListener('click',()=>{mode=mode==='light'?'dark':mode==='dark'?'sepia':'light';localStorage.setItem('theme',mode);apply();});
+  btn.addEventListener('click',()=>{mode=mode==='light'?'dark':'light';localStorage.setItem('theme',mode);apply();});
+ }
+}
+function initSepiaToggle(){
+ const root=document.documentElement;const btn=document.getElementById('sepiaToggle');
+ const saved=localStorage.getItem('sepia');
+ let on=saved==='on';
+ apply();
+ function apply(){root.classList.toggle('sepia',on);}
+ if(btn){btn.setAttribute('aria-pressed',on?'true':'false');
+  btn.addEventListener('click',()=>{on=!on;localStorage.setItem('sepia',on?'on':'off');apply();});
  }
 }
 initThemeToggle();
+initSepiaToggle();
 setupHeroScroll();
 setupReveal();
 const quoteBtn=document.getElementById('quoteGuideToggle');
