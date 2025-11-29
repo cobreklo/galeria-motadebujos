@@ -344,7 +344,7 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
   <button id="lightboxClose" class="absolute -top-2 -right-2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><span class="material-symbols-outlined">close</span></button>
 
   <img id="lightboxImg" class="max-h-[75vh] max-w-[90vw] rounded-lg shadow-2xl object-contain" alt=""/>
-  <div id="lightboxNav" class="absolute inset-y-0 -left-8 -right-8 max-w-[90vw] pointer-events-none">
+  <div id="lightboxNav" class="fixed inset-y-0 left-6 right-6 pointer-events-none">
    <button id="lightboxPrev" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
    <button id="lightboxNext" class="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
   </div>
@@ -367,19 +367,8 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
  </div>
 <script>
 (function(){
-// Datos centralizados de obras
-let artworks=[
- {title:'Young Lunv',src:'./img/yungluna.jpg',alt:'Retrato digital con acentos neón.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración para Young Lunv.'},
- {title:'Findante',src:'./img/findante.jpg',alt:'Composición abstracta verde/negro.',year:2023,category:'Diseño',size:'3000x3000',desc:'Colaboración con el artista Findante.'},
- {title:'FlayteComoGucciMane',src:'./img/guccimane.jpg',alt:'Retrato estilizado con maquillaje graffiti.',year:2022,category:'CoverArt',size:'3000x3000',desc:'CoverArt/Ilustración para FlayteComoGucciMane.'},
- {title:'likeetnn',src:'./img/liltn.jpg',alt:'Ciudad futurista con vehículos voladores.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración para likeetnn'},
- {title:'wowos',src:'./img/oswowos.jpg',alt:'Close‑up de ojo con reflejos galácticos.',year:2023,category:'Diseño',size:'3000x3000',desc:'Ilustración de mi amor mwahaha'},
- {title:'Escobar 316',src:'./img/escobar.jpg',alt:'Paisaje surreal con islas flotantes.',year:2021,category:'CoverArt',size:'3000x3000',desc:'Ilustración para Escobar 316'},
- {title:'MotaKnueevee',src:'./img/motaknueve.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Colaboración con @knueevee'},
- {title:'CALLEJERO ESPIRITUAL',src:'./img/lameavolablockstar.jpg',alt:'Composición digital urbana/espiritual.',year:2022,category:'Diseño',size:'3000x3000',desc:'CoverArt para "CALLEJERO ESPIRITUAL" by Bloockkstar'},
- {title:'miloJ',src:'./img/miloJ.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Ilustración de Baby Milo & Donba :3.'},
- {title:'s1naka',src:'./img/s1naka.jpg',alt:'Arte digital moderno y vibrante.',year:2024,category:'Ilustración',size:'3000x3000',desc:'Diseño de S1NAKA.'}
-];
+let artworks=[];
+const customMeta={};
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
 let cards=[];
@@ -391,7 +380,7 @@ function render(){
  grid.innerHTML=artworks.map((a,i)=>gridCardHtml(a,i)).join('');
 }
 render();
-async function loadInstagram(){try{const r=await fetch('/api/instagram');const j=await r.json();const items=(j.data||j).filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM').map(p=>({title:(p.caption||'Instagram').slice(0,40),src:p.media_type==='CAROUSEL_ALBUM'?(p.thumbnail_url||p.media_url):p.media_url,alt:p.caption||'',year:new Date(p.timestamp).getFullYear(),category:inferCategory(p.caption),size:'3000x3000',desc:p.caption||'',instagramUrl:p.permalink}));artworks=[...items,...artworks];render();document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(el));cards=[...track.querySelectorAll('.gallery-card')];cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});renderDots();highlightDots();updateSpacers();active();}catch(e){}}
+async function loadInstagram(){try{const r=await fetch('/api/instagram');const j=await r.json();const items=(j.data||j).filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM').sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map(p=>{const o=customMeta[p.id]||{};return {id:p.id,title:o.title??(p.caption||'Instagram').slice(0,40),src:p.media_type==='CAROUSEL_ALBUM'?(p.thumbnail_url||p.media_url):p.media_url,alt:p.caption||'',year:new Date(p.timestamp).getFullYear(),category:inferCategory(p.caption),size:o.size??'3000x3000',desc:p.caption||'',instagramUrl:p.permalink};});artworks=items;render();document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>{const s=el.getAttribute('data-src');if(s)el.style.backgroundImage=`url("${s}")`;});cards=[...track.querySelectorAll('.gallery-card')];cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});renderDots();highlightDots();updateSpacers();active();}catch(e){}}
 loadInstagram();
 cards=[...track.querySelectorAll('.gallery-card')];
 const prev=document.getElementById('prevBtn');
