@@ -290,6 +290,7 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
   <button id="lightboxClose" class="absolute -top-2 -right-2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><span class="material-symbols-outlined">close</span></button>
 
   <img id="lightboxImg" class="max-h-[75vh] max-w-[90vw] rounded-lg shadow-2xl object-contain" alt=""/>
+  <video id="lightboxVid" class="hidden max-h-[75vh] max-w-[90vw] rounded-lg shadow-2xl" controls playsinline></video>
   <div id="lightboxNav" class="fixed inset-y-0 left-6 right-6 pointer-events-none">
    <button id="lightboxPrev" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Anterior"><span class="material-symbols-outlined">chevron_left</span></button>
    <button id="lightboxNext" class="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-white/30 p-3 text-white hover:bg-white/40 pointer-events-auto" aria-label="Siguiente"><span class="material-symbols-outlined">chevron_right</span></button>
@@ -333,7 +334,39 @@ function render(){
 }
 render();
 const gridToggleBtn=document.getElementById('gridToggleBtn');if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{gridExpanded=!gridExpanded;render();document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});});}
-async function loadInstagram(){try{const r=await fetch('/api/instagram?max=69&nested=true');const j=await r.json();const items=(j.data||j).filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM').sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map(p=>{const o=customMeta[p.id]||{};const children=p.children||[];const cover=(p.media_type==='CAROUSEL_ALBUM')?((children[0]?.media_url)||(p.thumbnail_url||p.media_url||'')):(p.media_url||'');return {id:p.id,title:o.title??(p.caption||'Instagram').slice(0,40),src:cover,alt:p.caption||'',year:new Date(p.timestamp).getFullYear(),category:inferCategory(p.caption),size:o.size??'3000x3000',desc:p.caption||'',instagramUrl:p.permalink,children:children};});artworks=items;render();const toggle=document.getElementById('gridToggle');const btn=document.getElementById('gridToggleBtn');if(toggle&&btn){toggle.classList.toggle('hidden',artworks.length<=GRID_INITIAL);btn.textContent=gridExpanded?'Ver menos':'Ver más';}cards=[...track.querySelectorAll('.gallery-card')];cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});renderDots();highlightDots();updateSpacers();active();}catch(e){}}
+async function loadInstagram(){try{const r=await fetch('/api/instagram?max=69&nested=true');const j=await r.json();const items=(j.data||j)
+ .filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM'||p.media_type==='VIDEO')
+ .sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp))
+ .map(p=>{
+   const o=customMeta[p.id]||{};
+   const children=(p.children||[]);
+   const first=children[0];
+   const cover=(p.media_type==='CAROUSEL_ALBUM')
+     ? (first ? (first.media_type==='VIDEO' ? (first.thumbnail_url||'') : (first.media_url||'')) : (p.thumbnail_url||p.media_url||''))
+     : (p.media_type==='VIDEO' ? (p.thumbnail_url||'') : (p.media_url||''));
+   return {
+     id:p.id,
+     title:o.title??(p.caption||'Instagram').slice(0,40),
+     src:cover,
+     alt:p.caption||'',
+     year:new Date(p.timestamp).getFullYear(),
+     category:inferCategory(p.caption),
+     size:o.size??'3000x3000',
+     desc:p.caption||'',
+     instagramUrl:p.permalink,
+     mediaType:p.media_type,
+     videoUrl:p.media_type==='VIDEO'?p.media_url:undefined,
+     children:children
+   };
+ });
+ artworks=items;render();
+ const toggle=document.getElementById('gridToggle');const btn=document.getElementById('gridToggleBtn');
+ if(toggle&&btn){toggle.classList.toggle('hidden',artworks.length<=GRID_INITIAL);btn.textContent=gridExpanded?'Ver menos':'Ver más';}
+ cards=[...track.querySelectorAll('.gallery-card')];
+ cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
+ document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});
+ renderDots();highlightDots();updateSpacers();active();
+}catch(e){}}
 loadInstagram();
 cards=[...track.querySelectorAll('.gallery-card')];
 const prev=document.getElementById('prevBtn');
@@ -368,8 +401,15 @@ const lbShare=document.getElementById('lbShare');
 const lbAlbumControls=document.getElementById('lbAlbumControls');
 const lbAlbumPrev=document.getElementById('lbAlbumPrev');
 const lbAlbumNext=document.getElementById('lbAlbumNext');
+const vid=document.getElementById('lightboxVid');
 let current=0;let heroMode=false;let albumIdx=0;
-function setMeta(i){const art=artworks[i];if(!art)return;const hasChildren=Array.isArray(art.children)&&art.children.length>0;lbTitle.textContent=art.title||'';lbInfo.textContent=`${art.category||''} • ${art.year||''} • ${art.size||''}`;lbDesc.textContent=art.desc||'';lbCounter.textContent=`${i+1}/${artworks.length}${hasChildren?` • ${albumIdx+1}/${art.children.length}`:''}`;lbShare.href=art.instagramUrl||'https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';if(hasChildren){albumIdx=Math.max(0,Math.min(albumIdx,art.children.length-1));const c=art.children[albumIdx];img.src=c.media_url||(c.thumbnail_url||art.src);lbAlbumControls.classList.remove('hidden');}else{img.src=art.src;lbAlbumControls.classList.add('hidden');}img.alt=art.alt||'';preloadAdjacent(i);} 
+function setMeta(i){const art=artworks[i];if(!art)return;const hasChildren=Array.isArray(art.children)&&art.children.length>0;lbTitle.textContent=art.title||'';lbInfo.textContent=`${art.category||''} • ${art.year||''} • ${art.size||''}`;lbDesc.textContent=art.desc||'';lbCounter.textContent=`${i+1}/${artworks.length}${hasChildren?` • ${albumIdx+1}/${art.children.length}`:''}`;lbShare.href=art.instagramUrl||'https://www.instagram.com/motadebujos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';
+ let useVideo=false; let url='';
+ if(hasChildren){albumIdx=Math.max(0,Math.min(albumIdx,art.children.length-1));const c=art.children[albumIdx];useVideo=(c.media_type==='VIDEO');url=useVideo?(c.media_url||''):(c.media_url||c.thumbnail_url||art.src);lbAlbumControls.classList.remove('hidden');}
+ else {useVideo=(art.mediaType==='VIDEO');url=useVideo?(art.videoUrl||''):(art.src);lbAlbumControls.classList.add('hidden');}
+ if(useVideo && url){vid.classList.remove('hidden');img.classList.add('hidden');vid.src=url;try{vid.load();}catch{}}
+ else {img.classList.remove('hidden');vid.classList.add('hidden');img.src=url;}
+ img.alt=art.alt||'';preloadAdjacent(i);} 
 function openIndex(i){current=i;albumIdx=0;heroMode=false;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.remove('hidden');setMeta(i);trapFocus();}
 function closeLb(){overlay.classList.add('hidden');overlay.classList.remove('flex');document.body.classList.remove('overflow-hidden');}
 cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
