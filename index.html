@@ -6,12 +6,10 @@
 <title>Motadebujos :3</title>
 <meta property="og:title" content="Galería Motadebujos"/>
 <meta property="og:description" content="CoverArts, ilustraciones y diseños únicos."/>
-<!-- og:image removido por eliminación de carpeta local -->
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Galería Motadebujos"/>
 <meta name="twitter:description" content="CoverArts, ilustraciones y diseños únicos."/>
-<!-- twitter:image removido por eliminación de carpeta local -->
 <link rel="icon" href="/img/motadelogo.jpg?v=2" type="image/jpeg" sizes="32x32"/>
 <link rel="icon" href="/img/motadelogo.jpg?v=2" type="image/jpeg" sizes="16x16"/>
 <link rel="shortcut icon" href="/img/motadelogo.jpg?v=2" type="image/jpeg"/>
@@ -322,7 +320,7 @@ const track=document.getElementById('galleryTrack');
 let cards=[];
 const GRID_INITIAL=12; let gridExpanded=false;
 function cardHtml(a,i){return `\n<button type=\"button\" class=\"gallery-card group relative aspect-[3/4] overflow-hidden rounded-lg shrink-0 w-[220px] md:w-[260px] lg:w-[300px] snap-center\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight line-clamp-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
-function gridCardHtml(a,i){return `\n<button type=\"button\" class=\"group relative aspect-[3/4] overflow-hidden rounded-lg\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" data-src=\"${a.src}\"></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
+function gridCardHtml(a,i){return `\n<button type=\"button\" class=\"group relative aspect-[3/4] overflow-hidden rounded-lg\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
 function render(){
  track.innerHTML=`<div class=\"spacer shrink-0\" aria-hidden=\"true\"></div>${artworks.map((a,i)=>cardHtml(a,i)).join('')}<div class=\"spacer shrink-0\" aria-hidden=\"true\"></div>`;
  const grid=document.getElementById('galleryGrid');
