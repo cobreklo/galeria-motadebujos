@@ -102,7 +102,7 @@
 <span class="material-symbols-outlined text-white text-base opacity-0 dark:opacity-100 transition-opacity">dark_mode</span>
 <span class="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-primary transition-transform dark:translate-x-6"></span>
 </button>
-<button id="sepiaToggle" type="button" class="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 px-2 text-white transition-colors hover:bg-white/20" aria-label="Modo sepia">
+<button id="sepiaToggle" type="button" class="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#1b130f]/10 dark:bg-white/10 px-2 text-[#1b130f] dark:text-white transition-colors hover:bg-[#1b130f]/20 dark:hover:bg-white/20 ring-1 ring-[#1b130f]/20 dark:ring-white/20" aria-label="Modo sepia">
  <span class="material-symbols-outlined">visibility</span>
 </button>
 </header>
@@ -112,15 +112,15 @@
 <section class="@container py-10" id="hero">
 <div class="flex flex-col gap-6 @[480px]:gap-8 @[864px]:flex-row">
 <button type="button" class="hero-media group relative w-full aspect-video rounded-lg @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full" data-alt="Vibrant digital art piece with neon colors depicting a futuristic urban scene.">
- <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-src="./img/kuroh.jpg" style='background-image: url("./img/kuroh.jpg");'></div>
+ <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-src="./img/pkvasyvuelves.jpeg" style='background-image: url("./img/pkvasyvuelves.jpeg");'></div>
  <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/0 to-transparent p-4">
-  <p class="text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">Galería Motadebujos</p>
+  <p class="text-white text-base font-black leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 inline-block rounded-lg px-3 py-1 bg-black/40 ring-1 ring-white/30 backdrop-blur-sm" style="text-shadow: 0 0 2px #000, 0 0 8px rgba(0,0,0,0.8), 1px 1px 0 #000, -1px -1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000;">Galería Motadebujos</p>
  </div>
 </button>
 <div class="hero-content reveal flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
 <div class="flex flex-col gap-2 text-left">
 <h1 class="text-[#1b130f] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">
-                                        Galeria de Arte Motadebujos :3
+                                        Galeria de Arte Motadebujos
                                     </h1>
 <p class="text-[#1b130f]/80 dark:text-white/80 text-sm font-normal leading-normal @[480px]:text-base">
                                         CoverArts, ilustraciones y diseños únicos. Bienvenido a mi portafolio.
@@ -151,7 +151,9 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
     <li>• Diseño visual con enfoque en moda, joyas y tatuajes</li>
    </ul>
   </div>
-  
+  <div class="reveal group hero-media about-media relative aspect-[4/3] rounded-lg overflow-hidden">
+   <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image:url("./img/acercademota.jpeg")'></div>
+  </div>
  </div>
  </section>
 <!-- ImageGrid Section -->
@@ -278,7 +280,7 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
 <!-- CTA flotante -->
 <a href="#contacto" class="fixed bottom-6 right-6 z-50 rounded-full bg-primary px-5 py-3 text-background-dark font-bold shadow-lg hover:shadow-xl">Solicitar</a>
 <footer class="mt-auto border-t border-solid border-white/10 py-6 text-center">
-<p class="text-sm text-[#1b130f]/60 dark:text-white/60">© 2025 Motadeluca. Todos los derechos reservados.</p>
+<p class="text-sm text-[#1b130f]/60 dark:text-white/60">©Cobrechan 2025. Todos los derechos reservados.</p>
 </footer>
 </div>
 </div>
@@ -389,6 +391,20 @@ function setupHeroScroll(){
  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(apply);}}
  apply(); window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',apply);
 }
+function setupAboutScroll(){
+ const sec=document.getElementById('acerca'); if(!sec) return;
+ const media=sec.querySelector('.about-media'); if(!media) return;
+ let ticking=false;
+ function apply(){
+  const top=sec.offsetTop; const h=sec.offsetHeight; const y=window.scrollY;
+  const p=Math.max(0,Math.min(1,(y-top)/(h*0.8)));
+  const scale=1-0.08*p; const x=60*p;
+  media.style.transform=`translateX(${x}px) scale(${scale})`;
+  ticking=false;
+ }
+ function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(apply);}}
+ apply(); window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',apply);
+}
 function setupReveal(){
  const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal-in');io.unobserve(e.target);}})},{threshold:0.15});
  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
@@ -445,6 +461,7 @@ function initSepiaToggle(){
 initThemeToggle();
 initSepiaToggle();
 setupHeroScroll();
+setupAboutScroll();
 setupReveal();
 const quoteBtn=document.getElementById('quoteGuideToggle');
 const quoteBox=document.getElementById('quoteGuide');
