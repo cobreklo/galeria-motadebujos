@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   const fbToken = process.env.FB_ACCESS_TOKEN;
   const igUserId = process.env.IG_USER_ID;
   try {
-    if (igBasicToken) {
+  if (igBasicToken) {
       const url = 'https://graph.instagram.com/me/media'
         + '?fields=id,caption,media_url,permalink,media_type,thumbnail_url,timestamp'
         + `&access_token=${igBasicToken}`;
@@ -27,9 +27,27 @@ export default async function handler(req, res) {
         }
         return res.status(200).json({ data: flat });
       }
+      if (String(req.query.nested).toLowerCase() === 'true') {
+        const nested = [];
+        for (const it of data) {
+          if (it.media_type === 'CAROUSEL_ALBUM') {
+            try {
+              const cUrl = `https://graph.instagram.com/${it.id}/children?fields=id,media_type,media_url,thumbnail_url&access_token=${encodeURIComponent(igBasicToken)}`;
+              const cr = await fetch(cUrl); const cj = await cr.json();
+              const ch = Array.isArray(cj.data) ? cj.data : [];
+              nested.push({ ...it, children: ch });
+            } catch {
+              nested.push({ ...it, children: [] });
+            }
+          } else {
+            nested.push(it);
+          }
+        }
+        return res.status(200).json({ data: nested });
+      }
       return res.status(200).json(j);
     }
-    if (fbToken && igUserId) {
+  if (fbToken && igUserId) {
       const url = `https://graph.facebook.com/v19.0/${igUserId}/media` 
         + '?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp'
         + `&access_token=${fbToken}`;
@@ -52,6 +70,24 @@ export default async function handler(req, res) {
           }
         }
         return res.status(200).json({ data: flat });
+      }
+      if (String(req.query.nested).toLowerCase() === 'true') {
+        const nested = [];
+        for (const it of data) {
+          if (it.media_type === 'CAROUSEL_ALBUM') {
+            try {
+              const cUrl = `https://graph.facebook.com/v19.0/${it.id}/children?fields=id,media_type,media_url,thumbnail_url&access_token=${encodeURIComponent(fbToken)}`;
+              const cr = await fetch(cUrl); const cj = await cr.json();
+              const ch = Array.isArray(cj.data) ? cj.data : [];
+              nested.push({ ...it, children: ch });
+            } catch {
+              nested.push({ ...it, children: [] });
+            }
+          } else {
+            nested.push(it);
+          }
+        }
+        return res.status(200).json({ data: nested });
       }
       return res.status(200).json(j);
     }
