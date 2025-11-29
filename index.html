@@ -342,7 +342,6 @@ function render(){
  const toggle=document.getElementById('gridToggle');const btn=document.getElementById('gridToggleBtn');if(toggle&&btn){toggle.classList.toggle('hidden',artworks.length<=GRID_INITIAL);btn.textContent=gridExpanded?'Ver menos':'Ver más';}
  cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
  document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});
- renderDots();highlightDots();updateSpacers();active();
 }
 render();
 const gridToggleBtn=document.getElementById('gridToggleBtn');if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{gridExpanded=!gridExpanded;render();document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});});}
