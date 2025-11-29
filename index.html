@@ -173,8 +173,9 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
 </div>
 <div id="carouselDots" class="flex justify-center gap-2 pb-2"></div>
 <div id="galleryGrid" class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-4"></div>
-<div id="gridToggle" class="px-4 pb-6">
+<div id="gridToggle" class="px-4 pb-6 flex gap-2">
  <button id="gridToggleBtn" class="rounded-full px-4 py-2 bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-[#1b130f]/15 dark:hover:bg-white/20">Ver más</button>
+ <button id="gridLessBtn" class="hidden rounded-full px-4 py-2 bg-[#1b130f]/10 dark:bg-white/10 text-[#1b130f] dark:text-white hover:bg-[#1b130f]/15 dark:hover:bg-white/20">Ver menos</button>
 </div>
 </section>
 <!-- Contacto -->
@@ -331,20 +332,24 @@ manualPermalinks.push('https://www.instagram.com/p/DLGlmscMBGD/');
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
 let cards=[];
-const GRID_INITIAL=12; let gridExpanded=true;
+const GRID_CHUNK=16; let gridPage=1;
 function cardHtml(a,i){return `\n<button type=\"button\" class=\"gallery-card group relative aspect-[3/4] overflow-hidden rounded-lg shrink-0 w-[220px] md:w-[260px] lg:w-[300px] snap-center\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight line-clamp-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
 function gridCardHtml(a,i){return `\n<button type=\"button\" class=\"group relative aspect-[3/4] overflow-hidden rounded-lg\" data-index=\"${i}\" data-alt=\"${a.alt}\" data-title=\"${a.title}\" data-year=\"${a.year}\" data-tech=\"${a.tech}\" data-size=\"${a.size}\" data-src=\"${a.src}\">\n <div class=\"absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110\" style='background-image:url(\"${a.src}\")'></div>\n <div class=\"absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4\">\n  <p class=\"text-white text-base font-bold leading-tight translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100\">${a.title}</p>\n </div>\n</button>`;}
 function render(){
  track.innerHTML=`<div class="spacer shrink-0" aria-hidden="true"></div>${artworks.map((a,i)=>cardHtml(a,i)).join('')}<div class="spacer shrink-0" aria-hidden="true"></div>`;
  cards=[...track.querySelectorAll('.gallery-card')];
  const grid=document.getElementById('galleryGrid');
- grid.innerHTML=(gridExpanded?artworks:artworks.slice(0,GRID_INITIAL)).map((a,i)=>gridCardHtml(a,i)).join('');
- const toggle=document.getElementById('gridToggle');const btn=document.getElementById('gridToggleBtn');if(toggle&&btn){toggle.classList.toggle('hidden',artworks.length<=GRID_INITIAL);btn.textContent=gridExpanded?'Ver menos':'Ver más';}
+ const limit=GRID_CHUNK*gridPage;
+ grid.innerHTML=artworks.slice(0,limit).map((a,i)=>gridCardHtml(a,i)).join('');
+ const toggle=document.getElementById('gridToggle');const more=document.getElementById('gridToggleBtn');const less=document.getElementById('gridLessBtn');
+ if(toggle&&more&&less){const maxPage=Math.max(1,Math.ceil(artworks.length/GRID_CHUNK));toggle.classList.toggle('hidden',artworks.length<=GRID_CHUNK);less.classList.toggle('hidden',gridPage<=1);more.disabled=gridPage>=maxPage;}
  cards.forEach(card=>{card.addEventListener('click',()=>openIndex(Number(card.dataset.index)));});
  document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});
 }
 render();
-const gridToggleBtn=document.getElementById('gridToggleBtn');if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{gridExpanded=!gridExpanded;render();document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>openIndex(Number(el.dataset.index)));});});}
+const gridToggleBtn=document.getElementById('gridToggleBtn');const gridLessBtn=document.getElementById('gridLessBtn');
+if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{const maxPage=Math.max(1,Math.ceil(artworks.length/GRID_CHUNK));gridPage=Math.min(maxPage,gridPage+1);render();});}
+if(gridLessBtn){gridLessBtn.addEventListener('click',()=>{gridPage=Math.max(1,gridPage-1);render();});}
 async function loadInstagram(){
  try{
   const extra=manualPermalinks.length?`&oembed=${encodeURIComponent(manualPermalinks.join(','))}`:'';
@@ -445,7 +450,7 @@ document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>ioImg.observe(e
 function preloadAdjacent(i){[i-1,i+1].forEach(k=>{const el=cards[k];if(!el)return;const src=el.dataset.src||el.querySelector('.bg-cover').style.backgroundImage.replace(/^url\("|"\)$/g,'');const im=new Image();im.src=src;});}
 function trapFocus(){const f=[close,lbPrev,lbNext].filter(el=>!el.classList.contains('hidden'));let idx=0;f.forEach(el=>el.setAttribute('tabindex','0'));overlay.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();if(!f.length){close.focus();return;}idx=(idx+(e.shiftKey?-1:1)+f.length)%f.length;f[idx].focus();}});}
 const chips=[...document.querySelectorAll('.filter-chip')];
-chips.forEach(ch=>ch.addEventListener('click',()=>{const tag=ch.dataset.filter;chips.forEach(c=>c.classList.remove('bg-primary/30'));ch.classList.add('bg-primary/30');const grid=document.getElementById('galleryGrid');const list=artworks.map((a,i)=>({a,i})).filter(x=>tag==='all'||x.a.category===tag);const sliced=(gridExpanded?list:list.slice(0,GRID_INITIAL));grid.innerHTML=sliced.map(({a,i})=>gridCardHtml(a,i)).join('');document.querySelectorAll('#galleryGrid [data-src]').forEach(el=>{const s=el.getAttribute('data-src');if(s)el.style.backgroundImage=`url("${s}")`;});const toggle=document.getElementById('gridToggle');const btn=document.getElementById('gridToggleBtn');if(toggle&&btn){toggle.classList.toggle('hidden',list.length<=GRID_INITIAL);btn.textContent=gridExpanded?'Ver menos':'Ver más';}document.querySelectorAll('#galleryGrid button').forEach(el=>el.addEventListener('click',()=>openIndex(Number(el.dataset.index))));}));
+chips.forEach(ch=>ch.addEventListener('click',()=>{const tag=ch.dataset.filter;chips.forEach(c=>c.classList.remove('bg-primary/30'));ch.classList.add('bg-primary/30');gridPage=1;const grid=document.getElementById('galleryGrid');const list=artworks.map((a,i)=>({a,i})).filter(x=>tag==='all'||x.a.category===tag);const limit=GRID_CHUNK*gridPage;grid.innerHTML=list.slice(0,limit).map(({a,i})=>gridCardHtml(a,i)).join('');const toggle=document.getElementById('gridToggle');const more=document.getElementById('gridToggleBtn');const less=document.getElementById('gridLessBtn');if(toggle&&more&&less){toggle.classList.toggle('hidden',list.length<=GRID_CHUNK);less.classList.add('hidden');more.disabled=(list.length<=GRID_CHUNK);}document.querySelectorAll('#galleryGrid button').forEach(el=>el.addEventListener('click',()=>openIndex(Number(el.dataset.index))));}));
 function setupHeroScroll(){
  const hero=document.getElementById('hero'); if(!hero) return;
  const media=hero.querySelector('.hero-media'); const content=hero.querySelector('.hero-content');
