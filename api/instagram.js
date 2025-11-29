@@ -5,6 +5,19 @@ export default async function handler(req, res) {
   const fbToken = process.env.FB_ACCESS_TOKEN;
   const igUserId = process.env.IG_USER_ID;
   try {
+  if (!igBasicToken && !fbToken) {
+      if (oembedList.length && appId && appSecret) {
+        const nested = [];
+        for (const url of oembedList) {
+          try {
+            const oe = await fetch(`https://graph.facebook.com/v19.0/instagram_oembed?url=${encodeURIComponent(url)}&access_token=${encodeURIComponent(appId+'|'+appSecret)}`);
+            const j = await oe.json();
+            if (j && j.thumbnail_url) nested.push({ id: 'oembed:'+url, caption: j.title||'', media_type: 'IMAGE', media_url: j.thumbnail_url, thumbnail_url: j.thumbnail_url, permalink: url, timestamp: new Date().toISOString(), children: [] });
+          } catch {}
+        }
+        return res.status(200).json({ data: nested });
+      }
+  }
   if (igBasicToken) {
       const url = 'https://graph.instagram.com/me/media'
         + '?fields=id,caption,media_url,permalink,media_type,thumbnail_url,timestamp'
