@@ -47,6 +47,5 @@ let sx=0;if(overlay){overlay.addEventListener('touchstart',e=>{sx=e.touches[0].c
 function preloadAdjacent(i){const list=window.artworks||[];[i-1,i+1].forEach(k=>{const a=list[k];if(!a||!a.src)return;const im=new Image();im.src=a.src;});}
 function trapFocus(){const f=[close,lbPrev,lbNext].filter(el=>el&&!el.classList.contains('hidden'));let idx=0;f.forEach(el=>el&&el.setAttribute('tabindex','0'));overlay.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();if(!f.length){close&&close.focus();return;}idx=(idx+(e.shiftKey?-1:1)+f.length)%f.length;f[idx].focus();}});} 
 const heroMedia=document.querySelector('#hero .hero-media');
-if(heroMedia){heroMedia.addEventListener('click',()=>{const bg=heroMedia.querySelector('.bg-cover');const src=(bg&&bg.getAttribute('data-src'))||((bg&&bg.style.backgroundImage)||'').replace(/^url\("|"\)$/g,'');heroMode=true;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.add('hidden');img.src=src;img.alt=heroMedia.getAttribute('data-alt')||'';lbTitle.textContent='Galería Motadebujos';lbInfo.textContent='';lbCounter.textContent='';trapFocus();});}
 window.openIndex=openIndex;
 })();
