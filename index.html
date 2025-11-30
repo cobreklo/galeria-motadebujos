@@ -340,7 +340,7 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
     <button id="lbAlbumNext" class="rounded-full bg-white/20 px-2 py-1 text-sm hover:bg-white/30" aria-label="Siguiente en álbum"><span class="material-symbols-outlined">chevron_right</span></button>
    </div>
    <div id="zoomControls" class="flex items-center gap-2">
-    <button id="zoomToggle" class="rounded-full bg-white/20 px-3 py-1 text-sm hover:bg-white/30" aria-pressed="false">Lupa</button>
+    <button id="zoomToggle" class="rounded-full bg-white/20 px-2 py-2 text-sm hover:bg-white/30 flex items-center justify-center" aria-pressed="false" aria-label="Activar lupa"><span class="material-symbols-outlined">zoom_in</span></button>
     <div class="flex items-center gap-1">
      <button id="zoomLv2" data-z="2" class="rounded-full bg-white/10 px-2 py-1 text-xs hover:bg-white/20">2x</button>
      <button id="zoomLv3" data-z="3" class="rounded-full bg-white/10 px-2 py-1 text-xs hover:bg-white/20">3x</button>
@@ -476,7 +476,7 @@ function enableZoom(){if(!lens||!lensEnabled||img.classList.contains('hidden'))r
 function disableZoom(){if(lens)lens.classList.add('hidden');}
 function onMove(e){if(!lens||lens.classList.contains('hidden'))return;const rect=img.getBoundingClientRect();const x=e.clientX-rect.left;const y=e.clientY-rect.top;if(x<0||y<0||x>rect.width||y>rect.height){disableZoom();return;}const nw=Number(lens.dataset.nw)||img.naturalWidth;const nh=Number(lens.dataset.nh)||img.naturalHeight;const rx=Math.max(0,Math.min(nw,(x/rect.width)*nw));const ry=Math.max(0,Math.min(nh,(y/rect.height)*nh));lens.style.left=(e.clientX-LSIZE/2)+'px';lens.style.top=(e.clientY-LSIZE/2)+'px';lens.style.backgroundPosition=`${-(rx*lensZoom-LSIZE/2)}px ${-(ry*lensZoom-LSIZE/2)}px`;}
 img.addEventListener('mouseenter',enableZoom);img.addEventListener('mousemove',onMove);img.addEventListener('mouseleave',disableZoom);
-if(zoomToggle){zoomToggle.addEventListener('click',()=>{lensEnabled=!lensEnabled;zoomToggle.setAttribute('aria-pressed',lensEnabled?'true':'false');if(!lensEnabled)disableZoom();});}
+if(zoomToggle){zoomToggle.addEventListener('click',()=>{lensEnabled=!lensEnabled;zoomToggle.setAttribute('aria-pressed',lensEnabled?'true':'false');zoomToggle.classList.toggle('bg-white/40',lensEnabled);zoomToggle.classList.toggle('ring-2',lensEnabled);zoomToggle.classList.toggle('ring-white/60',lensEnabled);if(!lensEnabled)disableZoom();});}
 [zoomLv2,zoomLv3,zoomLv4].forEach(btn=>{if(btn)btn.addEventListener('click',()=>{lensZoom=Number(btn.dataset.z)||2;[zoomLv2,zoomLv3,zoomLv4].forEach(b=>b&&b.classList.toggle('bg-white/30',b===btn));const nw=img.naturalWidth||Number(lens.dataset.nw)||0;const nh=img.naturalHeight||Number(lens.dataset.nh)||0;if(!lensEnabled||lens.classList.contains('hidden'))return;lens.style.backgroundSize=`${nw*lensZoom}px ${nh*lensZoom}px`;});});
 function openIndex(i){current=i;albumIdx=0;heroMode=false;overlay.classList.remove('hidden');overlay.classList.add('flex');document.body.classList.add('overflow-hidden');document.getElementById('lightboxNav').classList.remove('hidden');setMeta(i);trapFocus();}
 function closeLb(){overlay.classList.add('hidden');overlay.classList.remove('flex');document.body.classList.remove('overflow-hidden');}
