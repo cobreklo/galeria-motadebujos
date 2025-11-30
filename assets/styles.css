@@ -39,13 +39,13 @@ body{background-image:
     background-attachment: fixed;
     background-blend-mode: normal, normal, overlay, multiply;}
 html.dark body{background-image:
-    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.24), transparent 60%),
-    radial-gradient(900px at 85% 70%, rgba(144,107,78,0.20), transparent 65%),
-    repeating-linear-gradient(45deg, rgba(144,107,78,0.10) 0 2px, transparent 2px 12px),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(144,107,78,0.34)' stroke-width='2'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
+    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.30), transparent 60%),
+    radial-gradient(900px at 85% 70%, rgba(144,107,78,0.26), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(144,107,78,0.18) 0 2px, transparent 2px 12px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(216,186,150,0.90)' stroke-width='3'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
     background-size: cover, cover, auto, 220px 220px;
     background-attachment: fixed;
-    background-blend-mode: normal, normal, overlay, overlay;}
+    background-blend-mode: normal, normal, normal, normal;}
 body::after{content:"";display:none;}
 html.dark body::after{
     content:"";
@@ -54,11 +54,12 @@ html.dark body::after{
     inset:0;
     pointer-events:none;
     background-image:
-      radial-gradient(circle at 30px 30px, rgba(144,107,78,0.09) 1px, transparent 2px),
-      radial-gradient(circle at 90px 90px, rgba(144,107,78,0.08) 1px, transparent 2px),
-      linear-gradient(transparent 0, transparent 119px, rgba(144,107,78,0.07) 120px),
-      linear-gradient(90deg, transparent 0, transparent 119px, rgba(144,107,78,0.07) 120px);
+      radial-gradient(circle at 30px 30px, rgba(144,107,78,0.11) 1px, transparent 2px),
+      radial-gradient(circle at 90px 90px, rgba(144,107,78,0.10) 1px, transparent 2px),
+      linear-gradient(transparent 0, transparent 119px, rgba(144,107,78,0.09) 120px),
+      linear-gradient(90deg, transparent 0, transparent 119px, rgba(144,107,78,0.09) 120px);
     background-size:120px 120px,120px 120px,120px 120px,120px 120px;
     background-position:0 0,60px 60px,0 0,0 0;
-    opacity:.22
+    opacity:.20;
+    mix-blend-mode:normal
 }
