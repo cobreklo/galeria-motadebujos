@@ -89,4 +89,6 @@ initSepiaToggle();
 setupHeroScroll();
 setupAboutScroll();
 setupReveal();
+function initTitleTicker(){const base=document.title||'Motadebujos :3';let i=0,dir=1;const STEP=180,PF=1000,PE=600;function tick(){document.title=base.slice(0,i);if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP);}else{dir=-1;setTimeout(tick,PF);}}else{if(i>0){i--;setTimeout(tick,STEP);}else{dir=1;setTimeout(tick,PE);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
+initTitleTicker();
 })();
