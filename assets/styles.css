@@ -48,6 +48,11 @@ html.dark body{background-image:
     background-blend-mode: normal, normal, overlay, overlay;}
 body::after{content:"";display:none;}
 html.dark body::after{
+    content:"";
+    display:block;
+    position:fixed;
+    inset:0;
+    pointer-events:none;
     background-image:
       radial-gradient(circle at 30px 30px, rgba(144,107,78,0.09) 1px, transparent 2px),
       radial-gradient(circle at 90px 90px, rgba(144,107,78,0.08) 1px, transparent 2px),
