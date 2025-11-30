@@ -89,6 +89,6 @@ initSepiaToggle();
 setupHeroScroll();
 setupAboutScroll();
 setupReveal();
-function initTitleTicker(){const base=document.title||'Motadebujos :3';let i=0,dir=1;const STEP=180,PF=1000,PE=600;function tick(){document.title=base.slice(0,i);if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP);}else{dir=-1;setTimeout(tick,PF);}}else{if(i>0){i--;setTimeout(tick,STEP);}else{dir=1;setTimeout(tick,PE);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
+function initTitleTicker(){const base=(document.title||'Motadebujos');const BLANK='\u00A0';let i=0,dir=1;const STEP=140,PF=700,PE=500;function draw(){document.title=(i===0?BLANK:base.slice(0,i));}function next(delay){setTimeout(tick,delay);}function tick(){draw();if(dir===1){if(i<base.length){i++;next(STEP);}else{dir=-1;next(PF);}}else{if(i>0){i--;next(STEP);}else{dir=1;next(PE);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
 initTitleTicker();
 })();
