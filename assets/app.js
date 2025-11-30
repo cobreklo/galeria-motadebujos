@@ -89,6 +89,8 @@ initSepiaToggle();
 setupHeroScroll();
 setupAboutScroll();
 setupReveal();
-function initTitleTicker(){const base=(document.title||'Motadebujos');const PLACEHOLDER='·';let i=0,dir=1;const STEP_WRITE=200,STEP_DELETE=200,PAUSE_FULL=800,PAUSE_EMPTY=600;function draw(){document.title=(i===0?PLACEHOLDER:base.slice(0,i));}function tick(){draw();if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP_WRITE);}else{dir=-1;setTimeout(tick,PAUSE_FULL);}}else{if(i>0){i--;setTimeout(tick,STEP_DELETE);}else{dir=1;setTimeout(tick,PAUSE_EMPTY);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
+function setupBackgroundParallax(){const root=document.documentElement;const body=document.body;const speed=-0.15;function apply(){const y=Math.round(window.scrollY*speed);const dark=root.classList.contains('dark');if(dark){body.style.backgroundPosition=`center 0px, center 0px, 0px ${y}px`;}else{body.style.backgroundPosition=`center 0px, center 0px, center 0px, 0px ${y}px`;}}apply();window.addEventListener('scroll',()=>{apply();},{passive:true});window.addEventListener('resize',apply);document.addEventListener('visibilitychange',apply);} 
+setupBackgroundParallax();
+function initTitleTicker(){const base=(document.title||'Motadebujos :3');const PLACEHOLDER='·';let i=0,dir=1;const STEP_WRITE=200,STEP_DELETE=200,PAUSE_FULL=800,PAUSE_EMPTY=600;function draw(){document.title=(i===0?PLACEHOLDER:base.slice(0,i));}function tick(){draw();if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP_WRITE);}else{dir=-1;setTimeout(tick,PAUSE_FULL);}}else{if(i>0){i--;setTimeout(tick,STEP_DELETE);}else{dir=1;setTimeout(tick,PAUSE_EMPTY);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
 initTitleTicker();
 })();
