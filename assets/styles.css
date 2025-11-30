@@ -1,0 +1,59 @@
+body {
+    scroll-behavior: smooth;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+#prevBtn,#nextBtn{
+    transition: background-color 250ms ease, box-shadow 250ms ease;
+}
+#prevBtn:hover,#nextBtn:hover{
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    background-color: rgba(255,255,255,0.18);
+}
+.gallery-card{
+    transition: transform 450ms cubic-bezier(.22,.61,.36,1), filter 450ms cubic-bezier(.22,.61,.36,1), box-shadow 450ms cubic-bezier(.22,.61,.36,1);
+    will-change: transform, filter;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+.gallery-card .bg-cover{
+    transition: transform 700ms cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+}
+.hero-media{transform-origin:left center;transition:transform 600ms cubic-bezier(.22,.61,.36,1),border-radius 600ms;will-change:transform}
+.hero-content{transition:transform 600ms cubic-bezier(.22,.61,.36,1),opacity 600ms;will-change:transform,opacity}
+.reveal{opacity:0;transform:translateY(20px) scale(.98)}
+.reveal-in{opacity:1;transform:none;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms}
+html.sepia { filter: sepia(0.9) saturate(1.05) contrast(1.02); }
+body{background-image:
+    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.28), transparent 60%),
+    radial-gradient(900px at 85% 70%, rgba(59,28,19,0.24), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(144,107,78,0.12) 0 2px, transparent 2px 12px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(144,107,78,0.32)' stroke-width='2'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
+    background-size: cover, cover, auto, 220px 220px;
+    background-attachment: fixed;
+    background-blend-mode: normal, normal, overlay, multiply;}
+html.dark body{background-image:
+    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.20), transparent 60%),
+    radial-gradient(900px at 85% 70%, rgba(144,107,78,0.16), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(144,107,78,0.08) 0 2px, transparent 2px 12px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(144,107,78,0.22)' stroke-width='2'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
+    background-size: cover, cover, auto, 220px 220px;
+    background-attachment: fixed;
+    background-blend-mode: normal, normal, overlay, multiply;}
+body::after{content:"";display:none;}
+html.dark body::after{
+    background-image:
+      radial-gradient(circle at 30px 30px, rgba(144,107,78,0.06) 1px, transparent 2px),
+      radial-gradient(circle at 90px 90px, rgba(144,107,78,0.05) 1px, transparent 2px),
+      linear-gradient(transparent 0, transparent 119px, rgba(144,107,78,0.04) 120px),
+      linear-gradient(90deg, transparent 0, transparent 119px, rgba(144,107,78,0.04) 120px);
+    background-size:120px 120px,120px 120px,120px 120px,120px 120px;
+    background-position:0 0,60px 60px,0 0,0 0;
+    opacity:.18
+}
