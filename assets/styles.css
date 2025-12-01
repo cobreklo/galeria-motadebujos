@@ -38,6 +38,11 @@ body{background-image:
     background-size: cover, cover, auto, 220px 220px;
     background-attachment: fixed;
     background-blend-mode: normal, normal, overlay, multiply;}
+:root{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;}
+html.dark{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;}
+.bg-primary{background-color:var(--btn-bg)!important;color:var(--btn-text)!important;}
+.hover\:bg-primary\/30:hover{background-color:var(--btn-hover)!important;}
+.ring-primary{--tw-ring-color:var(--ring-primary)!important;}
 
 
 
