@@ -41,6 +41,7 @@ window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
 if(lbPrev)lbPrev.addEventListener('click',()=>{current=Math.max(0,current-1);setMeta(current);});
 if(lbNext)lbNext.addEventListener('click',()=>{const list=window.artworks||[];current=Math.min(list.length-1,current+1);setMeta(current);});
 window.addEventListener('keydown',e=>{if(heroMode)return;if(e.key==='ArrowLeft'){lbPrev&&lbPrev.click();}else if(e.key==='ArrowRight'){lbNext&&lbNext.click();}});
+window.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='z'){zoomToggle&&zoomToggle.click();}});
 if(lbAlbumPrev)lbAlbumPrev.addEventListener('click',()=>{const list=window.artworks||[];const art=list[current];if(!art||!art.children||!art.children.length)return;albumIdx=Math.max(0,albumIdx-1);setMeta(current);});
 if(lbAlbumNext)lbAlbumNext.addEventListener('click',()=>{const list=window.artworks||[];const art=list[current];if(!art||!art.children||!art.children.length)return;albumIdx=Math.min(art.children.length-1,albumIdx+1);setMeta(current);});
 let sx=0;if(overlay){overlay.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});overlay.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(dx>40){lbPrev&&lbPrev.click();}else if(dx<-40){lbNext&&lbNext.click();}});} 

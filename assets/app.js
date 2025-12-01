@@ -32,6 +32,13 @@ function setupReveal(){
  const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal-in');io.unobserve(e.target);}})},{threshold:0.15});
  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 }
+function setupNavActive(){
+ const links=[...document.querySelectorAll('header a[href^="#"]')];
+ const map=new Map();
+ links.forEach(a=>{const id=a.getAttribute('href').slice(1);const sec=document.getElementById(id);if(sec)map.set(sec,a)});
+ const io=new IntersectionObserver((ents)=>{ents.forEach(e=>{const a=map.get(e.target);if(!a)return;const on=e.isIntersecting;document.querySelectorAll('header a').forEach(x=>x.classList.remove('nav-active'));if(on)a.classList.add('nav-active');})},{rootMargin:'-40% 0px -50% 0px',threshold:0.25});
+ map.forEach((_,sec)=>io.observe(sec));
+}
 function initThemeToggle(){
  const root=document.documentElement;const btn=document.getElementById('themeToggle');
  const saved=localStorage.getItem('theme');
@@ -89,6 +96,7 @@ initSepiaToggle();
 setupHeroScroll();
 setupAboutScroll();
 setupReveal();
+setupNavActive();
 function setupBackgroundParallax(){const root=document.documentElement;const body=document.body;const speed=-0.6;let ticking=false;function apply(){const y=Math.round(window.scrollY*speed);const dark=root.classList.contains('dark');if(dark){body.style.backgroundPosition=`center 0px, center 0px, center ${y}px`;}else{body.style.backgroundPosition=`center 0px, center 0px, center 0px, center ${y}px`;}}function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(()=>{apply();ticking=false;});}}apply();window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',apply);document.addEventListener('visibilitychange',apply);} 
 setupBackgroundParallax();
 function initTitleTicker(){const base=(document.title||'Motadebujos :3');const PLACEHOLDER='·';let i=0,dir=1;const STEP_WRITE=200,STEP_DELETE=200,PAUSE_FULL=800,PAUSE_EMPTY=600;function draw(){document.title=(i===0?PLACEHOLDER:base.slice(0,i));}function tick(){draw();if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP_WRITE);}else{dir=-1;setTimeout(tick,PAUSE_FULL);}}else{if(i>0){i--;setTimeout(tick,STEP_DELETE);}else{dir=1;setTimeout(tick,PAUSE_EMPTY);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}

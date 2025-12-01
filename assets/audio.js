@@ -20,4 +20,5 @@ function autoStart(){
   });
 }
 autoStart();
+document.addEventListener('keydown',(e)=>{if(e.key.toLowerCase()==='m'){(audio.paused||audio.ended)?doPlay():doPause();}});
 })();

@@ -38,6 +38,21 @@ body{background-image:
     background-size: cover, cover, auto, 220px 220px;
     background-attachment: fixed;
     background-blend-mode: normal, normal, overlay, multiply;}
+:root{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;--surface:rgba(27,19,15,0.06);--surface-2:rgba(27,19,15,0.10);--text-strong:#1b130f;--text-soft:rgba(27,19,15,0.8)}
+html.dark{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;--surface:rgba(255,255,255,0.10);--surface-2:rgba(255,255,255,0.14);--text-strong:#ffffff;--text-soft:rgba(255,255,255,0.8)}
+.bg-primary{background-color:var(--btn-bg)!important;color:var(--btn-text)!important}
+.hover\:bg-primary\/30:hover{background-color:var(--btn-hover)!important}
+.ring-primary{--tw-ring-color:var(--ring-primary)!important}
+.surf{background-color:var(--surface)}
+.surf-2{background-color:var(--surface-2)}
+.text-strong{color:var(--text-strong)}
+.text-soft{color:var(--text-soft)}
+nav a.nav-active{color:var(--btn-bg)}
+.pulse-soft{animation:pulseSoft 8s ease-in-out infinite}
+@keyframes pulseSoft{0%,97%,100%{transform:translateZ(0) scale(1);box-shadow:0 10px 20px rgba(0,0,0,0.20)}3%{transform:scale(1.03);box-shadow:0 16px 30px rgba(0,0,0,0.28)}}
+h1,h2,h3,h4{text-wrap:balance}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.08'/></feComponentTransfer></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");opacity:.12;mix-blend-mode:multiply}
+html.dark body::before{opacity:.09;mix-blend-mode:screen}
 :root{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;}
 html.dark{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;}
 .bg-primary{background-color:var(--btn-bg)!important;color:var(--btn-text)!important;}
