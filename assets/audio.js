@@ -12,7 +12,6 @@ audio.addEventListener('play',()=>{enabled=true;setBtn(true);});
 audio.addEventListener('pause',()=>{enabled=false;setBtn(false);});
 const pref=localStorage.getItem('bgAudio');setBtn(pref==='on');
 function autoStart(){
-  if(pref==='off') return; // respeta preferencia del usuario
   if(!audio.src){audio.src=audio.dataset.src||'assets/audio/Ober-Otranota.mp3';}
   audio.volume=0; // comienza suave
   audio.play().then(()=>{fade(0.8,900);enabled=true;localStorage.setItem('bgAudio','on');setBtn(true);}).catch(()=>{
