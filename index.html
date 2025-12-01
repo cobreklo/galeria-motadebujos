@@ -70,6 +70,9 @@
 <button id="sepiaToggle" type="button" class="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#1b130f]/10 dark:bg-white/10 px-2 text-[#1b130f] dark:text-white transition-colors hover:bg-[#1b130f]/20 dark:hover:bg-white/20 ring-1 ring-[#1b130f]/20 dark:ring-white/20" aria-label="Modo sepia">
  <span class="material-symbols-outlined">visibility</span>
 </button>
+<button id="audioBtn" type="button" class="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#1b130f]/10 dark:bg-white/10 px-2 text-[#1b130f] dark:text-white transition-colors hover:bg-[#1b130f]/20 dark:hover:bg-white/20 ring-1 ring-[#1b130f]/20 dark:ring-white/20" aria-label="Audio">
+ <span class="material-symbols-outlined">music_note</span>
+ </button>
 </header>
 <main class="flex flex-1 justify-center py-5">
 <div class="layout-content-container flex w-full max-w-5xl flex-col px-4">
@@ -121,7 +124,7 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
   </div>
  </div>
  </section>
-<!-- ImageGrid Section -->
+<!-- Sección pulenta de ImageGrid -->
 <section class="py-10" id="galeria">
 <h2 class="text-[#1b130f] dark:text-white text-3xl font-bold leading-tight tracking-[-0.015em] px-4 pb-5 pt-5">Galería</h2>
 <div class="px-4 pb-4 flex flex-wrap gap-2">
@@ -296,4 +299,6 @@ Si quieres un diseño que no solo se vea bien, sino que suene fuerte visualmente
 <script defer src="assets/gallery.js"></script>
 <script defer src="assets/lightbox.js"></script>
 <script defer src="assets/app.js"></script>
+<script defer src="assets/audio.js"></script>
 </body></html>
+<audio id="bgAudio" src="assets/audio/pista.mp3" preload="auto" loop></audio>

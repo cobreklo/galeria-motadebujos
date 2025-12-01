@@ -38,6 +38,9 @@ body{background-image:
     background-size: cover, cover, auto, 220px 220px;
     background-attachment: fixed;
     background-blend-mode: normal, normal, overlay, multiply;}
+
+
+
     
 html.dark body{background-image:
     radial-gradient(900px at 15% 10%, rgba(144,107,78,0.30), transparent 60%),
