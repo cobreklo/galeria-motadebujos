@@ -137,6 +137,51 @@ export default async function handler(req, res) {
           }
           return it;
         }));
+        if (oembedList.length) {
+          for (const url of oembedList) {
+            try {
+              if (appId && appSecret) {
+                const oe = await fetch(`https://graph.facebook.com/v19.0/instagram_oembed?url=${encodeURIComponent(url)}&access_token=${encodeURIComponent(appId+'|'+appSecret)}`);
+                const j = await oe.json();
+                let stamp = j.upload_date || j.timestamp || j.published_time || j.updated_time || null;
+                if (!stamp) {
+                  try {
+                    const hr = await fetch(url); const ht = await hr.text();
+                    const m1 = ht.match(/"taken_at":\s*(\d+)/);
+                    const m2 = ht.match(/"datePublished":"([^"]+)"/);
+                    const m3 = ht.match(/"upload_date":"([^"]+)"/);
+                    if (m1) stamp = new Date(Number(m1[1])*1000).toISOString();
+                    else if (m2) stamp = new Date(m2[1]).toISOString();
+                    else if (m3) stamp = new Date(m3[1]).toISOString();
+                  } catch {}
+                }
+                const thumb = j.thumbnail_url || null;
+                if (thumb) nested.push({ id: 'oembed:'+url, caption: j.title||'', media_type: 'IMAGE', media_url: thumb, thumbnail_url: thumb, permalink: url, timestamp: stamp || new Date().toISOString(), children: [] });
+                else {
+                  try {
+                    const hr = await fetch(url); const ht = await hr.text();
+                    const img = (ht.match(/property=\"og:image\"[^>]*content=\"([^\"]+)\"/)||[])[1];
+                    if (img) nested.push({ id: 'oembed:'+url, caption: j.title||'', media_type: 'IMAGE', media_url: img, thumbnail_url: img, permalink: url, timestamp: stamp || new Date().toISOString(), children: [] });
+                  } catch {}
+                }
+              } else {
+                try {
+                  const hr = await fetch(url); const ht = await hr.text();
+                  const img = (ht.match(/property=\"og:image\"[^>]*content=\"([^\"]+)\"/)||[])[1];
+                  const ttl = (ht.match(/property=\"og:title\"[^>]*content=\"([^\"]+)\"/)||[])[1] || '';
+                  let stamp = null;
+                  const m1 = ht.match(/"taken_at":\s*(\d+)/);
+                  const m2 = ht.match(/"datePublished":"([^"]+)"/);
+                  const m3 = ht.match(/"upload_date":"([^"]+)"/);
+                  if (m1) stamp = new Date(Number(m1[1])*1000).toISOString();
+                  else if (m2) stamp = new Date(m2[1]).toISOString();
+                  else if (m3) stamp = new Date(m3[1]).toISOString();
+                  if (img) nested.push({ id: 'oembed:'+url, caption: ttl, media_type: 'IMAGE', media_url: img, thumbnail_url: img, permalink: url, timestamp: stamp || new Date().toISOString(), children: [] });
+                } catch {}
+              }
+            } catch {}
+          }
+        }
         return res.status(200).json({ data: nested });
       }
       return res.status(200).json(j);
