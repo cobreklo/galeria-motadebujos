@@ -59,6 +59,7 @@ async function loadInstagram(){
   const extra=manualPermalinks.length?`&oembed=${manualPermalinks.map(encodeURIComponent).join(',')}`:'';
   const r=await fetch(`/api/instagram?max=100&nested=true${extra}&cb=${Date.now()}`);
   const j=await r.json();
+  try{console.log('api.nested count',Array.isArray(j?.data)?j.data.length:0,'oembedAdded',j?.oembedAdded,'manualPermalinks',manualPermalinks.length);}catch{}
   const raw=Array.isArray(j?.data)?j.data:(Array.isArray(j)?j:[]);
   const items=raw
    .filter(p=>p.media_type==='IMAGE'||p.media_type==='CAROUSEL_ALBUM'||p.media_type==='VIDEO')

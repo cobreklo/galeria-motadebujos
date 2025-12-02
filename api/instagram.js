@@ -31,7 +31,7 @@ export default async function handler(req, res) {
             if (j && j.thumbnail_url) nested.push({ id: 'oembed:'+url, caption: j.title||'', media_type: 'IMAGE', media_url: j.thumbnail_url, thumbnail_url: j.thumbnail_url, permalink: url, timestamp: stamp || new Date().toISOString(), children: [] });
           } catch {}
         }
-        return res.status(200).json({ data: nested });
+        return res.status(200).json({ data: nested, oembedAdded: nested.filter(it=>String(it.id||'').startsWith('oembed:')).length });
       }
   }
   if (igBasicToken) {
@@ -127,7 +127,7 @@ export default async function handler(req, res) {
           }
         }
 
-        return res.status(200).json({ data: nested });
+        return res.status(200).json({ data: nested, oembedAdded: nested.filter(it=>String(it.id||'').startsWith('oembed:')).length });
       }
       return res.status(200).json(j);
     }
