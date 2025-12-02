@@ -1,5 +1,9 @@
 export default async function handler(req, res) {
-  const oembedList = (req.query?.oembed||"").split(",").map(s=>s.trim()).filter(Boolean);
+  const oembedList = (req.query?.oembed||"")
+    .split(",")
+    .map(s=>s.trim())
+    .filter(Boolean)
+    .map(s=>{ try { return decodeURIComponent(s); } catch { return s; } });
   const appId = process.env.FB_APP_ID; const appSecret = process.env.FB_APP_SECRET;
   const igBasicToken = process.env.INSTAGRAM_TOKEN;
   const fbToken = process.env.FB_ACCESS_TOKEN;

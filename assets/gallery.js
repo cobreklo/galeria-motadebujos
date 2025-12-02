@@ -56,8 +56,8 @@ if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{const maxPage=Math
 if(gridLessBtn){gridLessBtn.addEventListener('click',()=>{gridPage=Math.max(1,gridPage-1);render();});}
 async function loadInstagram(){
  try{
-  const extra=manualPermalinks.length?`&oembed=${manualPermalinks.join(',')}`:'';
-  const r=await fetch(`/api/instagram?max=100&nested=true${extra}`);
+  const extra=manualPermalinks.length?`&oembed=${manualPermalinks.map(encodeURIComponent).join(',')}`:'';
+  const r=await fetch(`/api/instagram?max=100&nested=true${extra}&cb=${Date.now()}`);
   const j=await r.json();
   const raw=Array.isArray(j?.data)?j.data:(Array.isArray(j)?j:[]);
   const items=raw
