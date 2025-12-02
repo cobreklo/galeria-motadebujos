@@ -80,3 +80,18 @@ html.dark .text-outline{
         0 -1px 0 rgba(255,255,255,0.7);
 }
 html.dark body::after{content:"";display:none;}
+.review-fade{position:absolute;left:0;right:0;height:90px;bottom:56px;pointer-events:none;background-image:linear-gradient(to top,var(--surface),transparent);} 
+.review-card{position:relative;padding:1.5rem;border-radius:1rem;background-color:var(--surface);box-shadow:0 10px 30px rgba(0,0,0,0.18);transition:transform 240ms cubic-bezier(.22,.61,.36,1), box-shadow 240ms cubic-bezier(.22,.61,.36,1);will-change:transform,box-shadow;}
+.ripple-wrap{position:relative;overflow:hidden;}
+.ripple-circle{position:absolute;border-radius:9999px;transform:scale(0);opacity:.35;background-color:var(--btn-bg);pointer-events:none;animation:ripple 600ms ease-out;}
+html.dark .ripple-circle{background-color:rgba(255,255,255,0.65);} 
+@keyframes ripple{to{transform:scale(12);opacity:0;}}
+.burst-dot{position:absolute;width:8px;height:8px;border-radius:9999px;opacity:.85;animation:burstFly 700ms ease-out forwards}
+html.dark .burst-dot{opacity:.9}
+@keyframes burstFly{0%{transform:translate(0,0) scale(.8)}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+html.dark .review-card{background-color:var(--surface-2);box-shadow:0 12px 36px rgba(0,0,0,0.28);} 
+.review-card::before{content:"\201C";position:absolute;top:10px;left:12px;font-size:26px;color:var(--text-soft);opacity:.35;}
+.review-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,0.24);} 
+html.dark .review-card:hover{box-shadow:0 16px 40px rgba(0,0,0,0.32);} 
+.reviews-list .review-card + .review-card{border-top:1px solid rgba(27,19,15,0.10);} 
+html.dark .reviews-list .review-card + .review-card{border-top-color:rgba(255,255,255,0.12);}
