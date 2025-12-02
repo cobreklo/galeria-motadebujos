@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const igBasicToken = process.env.INSTAGRAM_TOKEN;
   const fbToken = process.env.FB_ACCESS_TOKEN;
   const igUserId = process.env.IG_USER_ID;
-  try {
+  try { res.setHeader('Cache-Control','public, max-age=600');
   if (!igBasicToken && !fbToken) {
       if (oembedList.length && appId && appSecret) {
         const nested = [];
@@ -44,21 +44,19 @@ export default async function handler(req, res) {
         return res.status(200).json({ data: flat });
       }
       if (String(req.query.nested).toLowerCase() === 'true') {
-        const nested = [];
-        for (const it of data) {
+        const nested = await Promise.all(data.map(async it => {
           if (it.media_type === 'CAROUSEL_ALBUM') {
             try {
               const cUrl = `https://graph.instagram.com/${it.id}/children?fields=id,media_type,media_url,thumbnail_url&access_token=${encodeURIComponent(igBasicToken)}`;
               const cr = await fetch(cUrl); const cj = await cr.json();
               const ch = Array.isArray(cj.data) ? cj.data : [];
-              nested.push({ ...it, children: ch });
+              return { ...it, children: ch };
             } catch {
-              nested.push({ ...it, children: [] });
+              return { ...it, children: [] };
             }
-          } else {
-            nested.push(it);
           }
-        }
+          return it;
+        }));
 
         if (oembedList.length && appId && appSecret) {
           for (const url of oembedList) {
@@ -71,15 +69,7 @@ export default async function handler(req, res) {
         }
 
 
-        if (oembedList.length && appId && appSecret) {
-          for (const url of oembedList) {
-            try {
-              const oe = await fetch(`https://graph.facebook.com/v19.0/instagram_oembed?url=${encodeURIComponent(url)}&access_token=${encodeURIComponent(appId+'|'+appSecret)}`);
-              const j2 = await oe.json();
-              if (j2 && j2.thumbnail_url) nested.push({ id: 'oembed:'+url, caption: j2.title||'', media_type: 'IMAGE', media_url: j2.thumbnail_url, thumbnail_url: j2.thumbnail_url, permalink: url, timestamp: new Date().toISOString(), children: [] });
-            } catch {}
-          }
-        }
+
         return res.status(200).json({ data: nested });
       }
       return res.status(200).json(j);
@@ -110,21 +100,19 @@ export default async function handler(req, res) {
         return res.status(200).json({ data: flat });
       }
       if (String(req.query.nested).toLowerCase() === 'true') {
-        const nested = [];
-        for (const it of data) {
+        const nested = await Promise.all(data.map(async it => {
           if (it.media_type === 'CAROUSEL_ALBUM') {
             try {
               const cUrl = `https://graph.facebook.com/v19.0/${it.id}/children?fields=id,media_type,media_url,thumbnail_url&access_token=${encodeURIComponent(fbToken)}`;
               const cr = await fetch(cUrl); const cj = await cr.json();
               const ch = Array.isArray(cj.data) ? cj.data : [];
-              nested.push({ ...it, children: ch });
+              return { ...it, children: ch };
             } catch {
-              nested.push({ ...it, children: [] });
+              return { ...it, children: [] };
             }
-          } else {
-            nested.push(it);
           }
-        }
+          return it;
+        }));
         return res.status(200).json({ data: nested });
       }
       return res.status(200).json(j);
