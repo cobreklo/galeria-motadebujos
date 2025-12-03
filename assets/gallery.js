@@ -51,17 +51,17 @@ manualExtras.push({
   children:[]
 });
 manualExtras.push({
-  id:'manual-callejero-espiritual-2025-09-01',
+  id:'manual-callejero-espiritual-2025-08-09',
   title:'CALLEJERO ESPIRITUAL',
   src:'./img/bloockkstar.jpg',
-  alt:'CALLEJERO ESPIRITUAL (septiembre de 2025)',
+  alt:'CALLEJERO ESPIRITUAL (9 de agosto de 2025)',
   year:2025,
   category:'CoverArt',
   size:'3000x3000',
   desc:'“CALLEJERO ESPIRITUAL” hoy a las 00:00 Al liberarnos de nuestro propio miedo nuestra presencia libera automáticamente a otros.',
   instagramUrl:'https://www.instagram.com/p/DNJ5QlQsDQX/',
   mediaType:'IMAGE',
-  timestamp:'2025-09-01T00:00:00Z',
+  timestamp:'2025-08-09T00:00:00Z',
   children:[]
 });
 manualExtras.push({
