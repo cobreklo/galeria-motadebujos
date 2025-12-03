@@ -8,6 +8,20 @@ manualPermalinks.push('https://www.instagram.com/p/DOM184ZDaUL/');
 manualPermalinks.push('https://www.instagram.com/p/DN6o6g-DbKS/');
 manualPermalinks.push('https://www.instagram.com/p/DNJ5QlQsDQX/');
 manualPermalinks.push('https://www.instagram.com/p/DLGlmscMBGD/');
+manualExtras.push({
+  id:'manual-flaytecomoguccimane-2025-11-12',
+  title:'flaytecomoguccimane',
+  src:'./img/flaytecomoguccimane.jpg',
+  alt:'flaytecomoguccimane (12 de noviembre de 2025)',
+  year:2025,
+  category:'Ilustración',
+  size:'3000x3000',
+  desc:'Publicación manual - 12 de noviembre de 2025.',
+  instagramUrl:undefined,
+  mediaType:'IMAGE',
+  timestamp:'2025-11-12T00:00:00Z',
+  children:[]
+});
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
 let cards=[];
@@ -77,6 +91,7 @@ async function loadInstagram(){
        src:cover,
        alt:p.caption||'',
        year:new Date(p.timestamp).getFullYear(),
+       timestamp:p.timestamp,
        category:inferCategory(p.caption),
        size:o.size??'3000x3000',
        desc:p.caption||'',
@@ -86,11 +101,11 @@ async function loadInstagram(){
        children:children
      };
    });
-  artworks=[...items,...manualExtras];
- }catch(e){
+  artworks=[...items,...manualExtras].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+}catch(e){
   try{console.error('Instagram API error',e);}catch{}
-  artworks=[...manualExtras];
- }
+  artworks=[...manualExtras].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+}
  window.artworks=artworks;
  render();
 }
