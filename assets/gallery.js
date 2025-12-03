@@ -14,13 +14,72 @@ manualExtras.push({
   src:'./img/flaytecomoguccimane.jpg',
   alt:'flaytecomoguccimane (12 de noviembre de 2025)',
   year:2025,
-  category:'Ilustración',
+  category:'CoverArt',
   size:'3000x3000',
-  desc:'Publicación manual - 12 de noviembre de 2025.',
-  instagramUrl:undefined,
+  desc:'yiiaaaaaaa flayte como gucci en la callosa 🫣🏚️esperen el proximooo los amo mi yente🤟🏻👿 sky + preview 🧑🏽‍🚀🙂‍↕️👨🏻‍💻 @bloockkstar te amo mi hermano , gracias x la oportunidad🤟🏻💜🤞🏼 @babyglockz4l @guille._onthebeat nos comeremos el planeta mis hermanos💜🏚️ motita te la robaste amor de rey @motadebujos',
+  instagramUrl:'https://www.instagram.com/p/DQ-b4S6Ed9h',
   mediaType:'IMAGE',
   timestamp:'2025-11-12T00:00:00Z',
   children:[]
+});
+manualExtras.push({
+  id:'manual-reggaetondisko-2025-09-04',
+  title:'reggaetondisko',
+  src:'./img/reggaetondisko.jpg',
+  alt:'reggaetondisko (4 de septiembre de 2025)',
+  year:2025,
+  category:'CoverArt',
+  size:'3000x3000',
+  desc:'Tamos listos cabros, se viene REGGAETON DISKO, (@motadebujos en la portada)‼️‼️‼️‼️aun no tenemos fexa cabros pero se espera que sea antes del 15, gracias a todos por el apoyo y gracias a la compañera que hizo el dibujo aqui dejo su cuenta pa ke la vayan a seguir cabros @motadebujos A APOYARRR QUE SE VIENE GENTEE💜🖤#reggaeton #disco #drefquila #kiddvoodoo #bryartz #youngcister #luismi #polimawestcoast #yzzitn',
+  instagramUrl:'https://www.instagram.com/p/DOM184ZDaUL/',
+  mediaType:'IMAGE',
+  timestamp:'2025-09-04T00:00:00Z',
+  children:[]
+});
+manualExtras.push({
+  id:'manual-sexcall-2025-08-28',
+  title:'sexcall',
+  src:'./img/sexcall.jpg',
+  alt:'sexcall (28 de agosto de 2025)',
+  year:2025,
+  category:'CoverArt',
+  size:'3000x3000',
+  desc:'En breve suelto la fecha mi gente en colaboración también con @motadebujos ✍️ en el cover art en la prod @youngearthy 💻🧙🏻‍♂️',
+  instagramUrl:'https://www.instagram.com/p/DN6o6g-DbKS/',
+  mediaType:'IMAGE',
+  timestamp:'2025-08-28T00:00:00Z',
+  children:[]
+});
+manualExtras.push({
+  id:'manual-callejero-espiritual-2025-09-01',
+  title:'CALLEJERO ESPIRITUAL',
+  src:'./img/bloockkstar.jpg',
+  alt:'CALLEJERO ESPIRITUAL (septiembre de 2025)',
+  year:2025,
+  category:'CoverArt',
+  size:'3000x3000',
+  desc:'CALLEJERO ESPIRITUAL.',
+  instagramUrl:'https://www.instagram.com/p/DNJ5QlQsDQX/',
+  mediaType:'IMAGE',
+  timestamp:'2025-09-01T00:00:00Z',
+  children:[]
+});
+manualExtras.push({
+  id:'manual-adictos-al-mambo-2025-06-19',
+  title:'Adictos al Mambo',
+  src:'./img/adictosalmambopag1.jpg',
+  alt:'Adictos al Mambo (19 de junio de 2025)',
+  year:2025,
+  category:'CoverArt',
+  size:'3000x3000',
+  desc:'Publicación manual - 19 de junio de 2025.',
+  instagramUrl:'https://www.instagram.com/p/DLGlmscMBGD',
+  mediaType:'CAROUSEL_ALBUM',
+  timestamp:'2025-06-19T00:00:00Z',
+  children:[
+    { media_type:'IMAGE', media_url:'./img/adictosalmambopag1.jpg' },
+    { media_type:'IMAGE', media_url:'./img/adictosalmambopag2.jpg' }
+  ]
 });
 function inferCategory(c){c=(c||'').toLowerCase();if(/cover/.test(c)||/#coverart/.test(c))return 'CoverArt';if(/ilustr/.test(c)||/#ilustracion|#ilustración/.test(c))return 'Ilustración';if(/diseñ|disen/.test(c)||/#diseño/.test(c))return 'Diseño';return 'Ilustración';}
 const track=document.getElementById('galleryTrack');
