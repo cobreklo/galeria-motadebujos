@@ -161,12 +161,16 @@ async function loadInstagram(){
      };
    });
   artworks=[...items,...manualExtras].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+  window.artworks=artworks;
+  render();
+  try{window.dispatchEvent(new CustomEvent('artworks:ready'));}catch{}
 }catch(e){
   try{console.error('Instagram API error',e);}catch{}
   artworks=[...manualExtras].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+  window.artworks=artworks;
+  render();
+  try{window.dispatchEvent(new CustomEvent('artworks:ready'));}catch{}
 }
- window.artworks=artworks;
- render();
 }
 loadInstagram();
 const prev=document.getElementById('prevBtn');
