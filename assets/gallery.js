@@ -123,7 +123,10 @@ function render(){
  document.querySelectorAll('#galleryGrid button').forEach(el=>{el.addEventListener('click',()=>{if(window.openIndex)window.openIndex(Number(el.dataset.index));});});
  setupLazy();
 }
+artworks=[...manualExtras];
+window.artworks=artworks;
 render();
+try{window.dispatchEvent(new CustomEvent('artworks:ready'));}catch{}
 const gridToggleBtn=document.getElementById('gridToggleBtn');const gridLessBtn=document.getElementById('gridLessBtn');
 if(gridToggleBtn){gridToggleBtn.addEventListener('click',()=>{const maxPage=Math.max(1,Math.ceil(artworks.length/GRID_CHUNK));gridPage=Math.min(maxPage,gridPage+1);render();});}
 if(gridLessBtn){gridLessBtn.addEventListener('click',()=>{gridPage=Math.max(1,gridPage-1);render();});}
