@@ -81,7 +81,11 @@ html.dark .glass-card{background-color:rgba(0,0,0,0.6);}
 .fondo-estatico-capa-baja{position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;background-position:center;background-repeat:no-repeat;background-size:cover;background-image:url("/assets/backgrounds/nyancatdark.jpg")}
 html:not(.dark) .fondo-estatico-capa-baja{background-image:url("/assets/backgrounds/nyancatlight.jpg")}
 @media (max-width:768px){
- .fondo-estatico-capa-baja{background-size:contain}
+ .fondo-estatico-capa-baja{
+  background-repeat:repeat;
+  background-size:480px auto;
+  background-position:center top
+ }
 }
 .gif-animado-capa-media{position:fixed;top:30%;left:0;transform:translateX(-200px);z-index:-1;width:150px;height:auto;image-rendering:auto;animation:vueloHorizontal 10s linear infinite}
 @keyframes vueloHorizontal{0%{transform:translateX(-200px)}100%{transform:translateX(120vw)}}
