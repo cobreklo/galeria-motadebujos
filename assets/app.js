@@ -8,7 +8,7 @@ function setupHeroScroll(){
   const p=Math.max(0,Math.min(1,(y-top)/(h*0.8)));
   const scale=1-0.12*p; const x=-60*p;
   if(media){media.style.transform=`translateX(${x}px) scale(${scale})`;}
-  if(content){content.style.opacity=String(1-p*0.25); content.style.transform=`translateX(${x*0.2}px)`;}
+ if(content){content.style.opacity='1'; content.style.transform='none';}
   ticking=false;
  }
  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(apply);}}
@@ -43,8 +43,8 @@ function initThemeToggle(){
  const root=document.documentElement;const btn=document.getElementById('themeToggle');
  const saved=localStorage.getItem('theme');
  let mode=saved==='light'?'light':'dark';
- apply();
  function apply(){root.classList.toggle('dark',mode==='dark');}
+ apply();
  if(btn){btn.setAttribute('aria-pressed',mode==='dark'?'true':'false');
   btn.addEventListener('click',()=>{mode=mode==='light'?'dark':'light';localStorage.setItem('theme',mode);apply();});
  }
@@ -56,9 +56,10 @@ function initSepiaToggle(){
  apply();
  function apply(){root.classList.toggle('sepia',on);}
  if(btn){btn.setAttribute('aria-pressed',on?'true':'false');
-  btn.addEventListener('click',()=>{on=!on;localStorage.setItem('sepia',on?'on':'off');apply();});
+ btn.addEventListener('click',()=>{on=!on;localStorage.setItem('sepia',on?'on':'off');apply();});
  }
 }
+/* background handled via CSS (body/html.dark) */
 const contactForm=document.getElementById('contactForm');
 if(contactForm){
  const status=document.getElementById('contactStatus');
@@ -97,7 +98,7 @@ setupHeroScroll();
 setupAboutScroll();
 setupReveal();
 setupNavActive();
-function setupBackgroundParallax(){const root=document.documentElement;const body=document.body;const speed=-0.6;let ticking=false;function apply(){const y=Math.round(window.scrollY*speed);const dark=root.classList.contains('dark');if(dark){body.style.backgroundPosition=`center 0px, center 0px, center ${y}px`;}else{body.style.backgroundPosition=`center 0px, center 0px, center 0px, center ${y}px`;}}function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(()=>{apply();ticking=false;});}}apply();window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',apply);document.addEventListener('visibilitychange',apply);} 
+function setupBackgroundParallax(){const cur=document.getElementById('themeBg');const next=document.getElementById('themeBgNext');function apply(){if(cur)cur.style.transform='none';if(next)next.style.transform='none';}apply();window.addEventListener('resize',apply);} 
 setupBackgroundParallax();
 function initTitleTicker(){const base=(document.title||'Motadebujos :3');const PLACEHOLDER='·';let i=0,dir=1;const STEP_WRITE=200,STEP_DELETE=200,PAUSE_FULL=800,PAUSE_EMPTY=600;function draw(){document.title=(i===0?PLACEHOLDER:base.slice(0,i));}function tick(){draw();if(dir===1){if(i<base.length){i++;setTimeout(tick,STEP_WRITE);}else{dir=-1;setTimeout(tick,PAUSE_FULL);}}else{if(i>0){i--;setTimeout(tick,STEP_DELETE);}else{dir=1;setTimeout(tick,PAUSE_EMPTY);}}}tick();document.addEventListener('visibilitychange',()=>{if(document.hidden)document.title=base;});}
 initTitleTicker();

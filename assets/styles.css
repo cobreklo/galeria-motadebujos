@@ -30,14 +30,7 @@ body {
 .reveal{opacity:0;transform:translateY(20px) scale(.98)}
 .reveal-in{opacity:1;transform:none;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms}
 html.sepia { filter: sepia(0.9) saturate(1.05) contrast(1.02); }
-body{background-image:
-    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.28), transparent 60%),
-    radial-gradient(900px at 85% 70%, rgba(59,28,19,0.24), transparent 65%),
-    repeating-linear-gradient(45deg, rgba(144,107,78,0.12) 0 2px, transparent 2px 12px),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(144,107,78,0.32)' stroke-width='2'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
-    background-size: cover, cover, auto, 220px 220px;
-    background-attachment: fixed;
-    background-blend-mode: normal, normal, overlay, multiply;}
+.theme-bg{position:fixed;top:0;left:0;width:100%;height:100vh;pointer-events:none;z-index:0;background-size:cover;background-position:center center;background-repeat:no-repeat;opacity:1;transition:opacity 400ms ease;will-change:opacity}
 :root{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;--surface:rgba(27,19,15,0.06);--surface-2:rgba(27,19,15,0.10);--text-strong:#1b130f;--text-soft:rgba(27,19,15,0.8)}
 html.dark{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);--ring-primary:#906b4e;--surface:rgba(255,255,255,0.10);--surface-2:rgba(255,255,255,0.14);--text-strong:#ffffff;--text-soft:rgba(255,255,255,0.8)}
 .bg-primary{background-color:var(--btn-bg)!important;color:var(--btn-text)!important}
@@ -62,13 +55,12 @@ html.dark{--btn-bg:#906b4e;--btn-text:#0f1110;--btn-hover:rgba(144,107,78,0.30);
 
 
     
-html.dark body{background-image:
-    radial-gradient(900px at 15% 10%, rgba(144,107,78,0.30), transparent 60%),
-    radial-gradient(900px at 85% 70%, rgba(144,107,78,0.26), transparent 65%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='rgba(60,60,60,0.92)' stroke-width='3'><path d='M10 30 c25 -16 50 16 75 0 s50 -16 75 0'/><path d='M0 110 c35 -18 70 18 110 0 s70 -18 110 0'/><circle cx='55' cy='60' r='10'/><circle cx='165' cy='150' r='8'/><path d='M30 180 q40 -20 80 0 q40 20 80 0'/></g></svg>");
-    background-size: cover, cover, 220px 220px;
-    background-attachment: fixed;
-    background-blend-mode: normal, normal, normal;}
+/* Fallback de colores si JS no carga las imágenes */
+body{background-color:#ede6df}
+html.dark body{background-color:#0f1110}
+.bg-fixed{background-attachment:fixed}
+body{background-image:url("/assets/backgrounds/nyancatlight.jpg");background-attachment:fixed;background-size:cover;background-position:center}
+html.dark body{background-image:url("/assets/backgrounds/nyancatdark.jpg");background-attachment:fixed;background-size:cover;background-position:center}
 body::after{content:"";display:none;}
 html.dark .text-outline{ 
     text-shadow:
