@@ -133,7 +133,7 @@ if(gridLessBtn){gridLessBtn.addEventListener('click',()=>{gridPage=Math.max(1,gr
 async function loadInstagram(){
  try{
   const extra=manualPermalinks.length?`&oembed=${manualPermalinks.map(encodeURIComponent).join(',')}`:'';
-  const r=await fetch(`/api/instagram?max=100&nested=true${extra}&cb=${Date.now()}`);
+  const r=await fetch(`/api/instagram?max=100&nested=true${extra}`);
   const j=await r.json();
   try{console.log('api.nested count',Array.isArray(j?.data)?j.data.length:0,'oembedAdded',j?.oembedAdded,'manualPermalinks',manualPermalinks.length);}catch{}
   const raw=Array.isArray(j?.data)?j.data:(Array.isArray(j)?j:[]);

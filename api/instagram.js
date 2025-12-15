@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const igBasicToken = process.env.INSTAGRAM_TOKEN;
   const fbToken = process.env.FB_ACCESS_TOKEN;
   const igUserId = process.env.IG_USER_ID;
-  try { res.setHeader('Cache-Control','public, max-age=600');
+  try { res.setHeader('Cache-Control','public, max-age=600, s-maxage=86400, stale-while-revalidate=86400');
   if (!igBasicToken && !fbToken) {
       if (oembedList.length && appId && appSecret) {
         const nested = [];
